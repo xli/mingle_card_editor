@@ -4,14 +4,10 @@
   var mingle_wiki_parser = {
     parse: function(desc) {
       var story = [];
-      $("<body>" + desc + "</body>").each(function(i, element) {
+      $($("<div></div>").html(desc)[0].childNodes).each(function(i, element) {
         if (element.outerHTML) {
-          console.log(typeof(element.outerHTML));
-          // console.log(element.outerHTML);
           story.push({id: 'story_item_' + i, type: 'paragraph', text: element.outerHTML});
         } else {
-          // console.log(element.data);
-          console.log(typeof(element.data));
           story.push({id: 'story_item_' + i, type: 'paragraph', text: element.data});
         }
       });
@@ -26,8 +22,6 @@
       success: onSuccess
     });
   };
-
-  
 
   function requestCard(uri, onSuccess) {
     jQuery.ajax({
