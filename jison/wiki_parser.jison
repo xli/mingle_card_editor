@@ -2,7 +2,8 @@
 %lex
 %%
 
-'{{'[^}]*'}}'                { return 'MACRO'; }
+[\n]{2,}                     { return 'DELIMITER'; }
+\s*'{{'[^}]*'}}'\s*          { return 'MACRO'; }
 [^{\n]+                      { return 'TEXT'; }
 [\n]                         { return 'NL'; }
 <<EOF>>                      { return 'EOF'; }
@@ -19,7 +20,7 @@ expressions
     ;
 
 paragraphs
-    : paragraphs NL NL paragraph      { $$=$1; $$.push($4); }
+    : paragraphs DELIMITER paragraph  { $$=$1; $$.push($3); }
     | paragraphs paragraph            { $$=$1; $$.push($2); }
     | paragraph                       { $$=[$1]; }
     ;
@@ -27,16 +28,10 @@ paragraphs
 paragraph
     : text                    { $$=$1; }
     | MACRO                   { $$=$1; }
-    | paragraph NL            { $$=$1; }
-    | NL paragraph            { $$=$2; }
     ;
 
 text
     : TEXT                    { $$=$1; }
-    | text (?=delimiter)      { $$=$1; }
+    | text (?=DELIMITER)      { $$=$1; }
     | text NL TEXT            { $$=$1+$2+$3; }
-    ;
-
-delimiter
-    : NL NL
     ;

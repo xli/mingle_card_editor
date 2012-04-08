@@ -11,8 +11,12 @@ describe("WikiParser", function() {
     var paragraphs = wiki_parser.parse("hello\nworld\n!");
     expect(paragraphs).toEqual(["hello\nworld\n!"])
   });
-  it("parse text and macro", function() {
+  it("parse text and macro paragraphs", function() {
     var paragraphs = wiki_parser.parse("hello{{ value }}\nworld\n!");
-    expect(paragraphs).toEqual(["hello", '{{ value }}', "world\n!"]);
+    expect(paragraphs).toEqual(["hello", "{{ value }}\n", "world\n!"]);
+
+    var paragraphs = wiki_parser.parse("hello\n{{ value\n  p1: xxx\n  p2: yyy\n}}\nworld\n\nhah!{{ ppp }}");
+    expect(paragraphs).toEqual(["hello", "\n{{ value\n  p1: xxx\n  p2: yyy\n}}\n", "world", 'hah!', '{{ ppp }}']);
   });
+  
 });

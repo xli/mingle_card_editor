@@ -1,19 +1,17 @@
 /* Jison generated parser */
 var wiki_parser = (function(){
-var parser = {trace: function trace() {
-        Jison.print.apply(null, arguments);
-    },
+var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"expressions":3,"paragraphs":4,"EOF":5,"NL":6,"paragraph":7,"text":8,"MACRO":9,"TEXT":10,"delimiter":11,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"NL",9:"MACRO",10:"TEXT"},
-productions_: [0,[3,2],[4,4],[4,2],[4,1],[7,1],[7,1],[7,2],[7,2],[8,1],[8,2],[8,3],[11,2]],
+symbols_: {"error":2,"expressions":3,"paragraphs":4,"EOF":5,"DELIMITER":6,"paragraph":7,"text":8,"MACRO":9,"TEXT":10,"NL":11,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",6:"DELIMITER",9:"MACRO",10:"TEXT",11:"NL"},
+productions_: [0,[3,2],[4,3],[4,2],[4,1],[7,1],[7,1],[8,1],[8,2],[8,3]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1: return $$[$0-1]; 
 break;
-case 2: this.$=$$[$0-3]; this.$.push($$[$0]); 
+case 2: this.$=$$[$0-2]; this.$.push($$[$0]); 
 break;
 case 3: this.$=$$[$0-1]; this.$.push($$[$0]); 
 break;
@@ -23,20 +21,16 @@ case 5: this.$=$$[$0];
 break;
 case 6: this.$=$$[$0]; 
 break;
-case 7: this.$=$$[$0-1]; 
+case 7: this.$=$$[$0]; 
 break;
-case 8: this.$=$$[$0]; 
+case 8: this.$=$$[$0-1]; 
 break;
-case 9: this.$=$$[$0]; 
-break;
-case 10: this.$=$$[$0-1]; 
-break;
-case 11: this.$=$$[$0-2]+$$[$0-1]+$$[$0]; 
+case 9: this.$=$$[$0-2]+$$[$0-1]+$$[$0]; 
 break;
 }
 },
-table: [{3:1,4:2,6:[1,6],7:3,8:4,9:[1,5],10:[1,7]},{1:[3]},{5:[1,8],6:[1,9],7:10,8:4,9:[1,5],10:[1,7]},{5:[2,4],6:[1,11],9:[2,4],10:[2,4]},{5:[2,5],6:[1,13],9:[2,5],10:[2,5],11:12},{5:[2,6],6:[2,6],9:[2,6],10:[2,6]},{6:[1,6],7:14,8:4,9:[1,5],10:[1,7]},{5:[2,9],6:[2,9],9:[2,9],10:[2,9]},{1:[2,1]},{6:[1,15],7:14,8:4,9:[1,5],10:[1,7]},{5:[2,3],6:[1,11],9:[2,3],10:[2,3]},{5:[2,7],6:[2,7],9:[2,7],10:[2,7]},{5:[2,10],6:[2,10],9:[2,10],10:[2,10]},{6:[1,17],10:[1,16]},{5:[2,8],6:[1,11],9:[2,8],10:[2,8]},{6:[1,6],7:18,8:4,9:[1,5],10:[1,7]},{5:[2,11],6:[2,11],9:[2,11],10:[2,11]},{5:[2,12],6:[2,12],9:[2,12],10:[2,12]},{5:[2,2],6:[1,11],9:[2,2],10:[2,2]}],
-defaultActions: {8:[2,1]},
+table: [{3:1,4:2,7:3,8:4,9:[1,5],10:[1,6]},{1:[3]},{5:[1,7],6:[1,8],7:9,8:4,9:[1,5],10:[1,6]},{5:[2,4],6:[2,4],9:[2,4],10:[2,4]},{5:[2,5],6:[1,10],9:[2,5],10:[2,5],11:[1,11]},{5:[2,6],6:[2,6],9:[2,6],10:[2,6]},{5:[2,7],6:[2,7],9:[2,7],10:[2,7],11:[2,7]},{1:[2,1]},{7:12,8:4,9:[1,5],10:[1,6]},{5:[2,3],6:[2,3],9:[2,3],10:[2,3]},{5:[2,8],6:[2,8],9:[2,8],10:[2,8],11:[2,8]},{10:[1,13]},{5:[2,2],6:[2,2],9:[2,2],10:[2,2]},{5:[2,9],6:[2,9],9:[2,9],10:[2,9],11:[2,9]}],
+defaultActions: {7:[2,1]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
 },
@@ -358,18 +352,20 @@ lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_STA
 
 var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
-case 0: return 9; 
+case 0: return 6; 
 break;
-case 1: return 10; 
+case 1: return 9; 
 break;
-case 2: return 6; 
+case 2: return 10; 
 break;
-case 3: return 5; 
+case 3: return 11; 
+break;
+case 4: return 5; 
 break;
 }
 };
-lexer.rules = [/^\{\{[^}]*\}\}/,/^[^{\n]+/,/^[\n]/,/^$/];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3],"inclusive":true}};
+lexer.rules = [/^[\n]{2,}/,/^\s*\{\{[^}]*\}\}\s*/,/^[^{\n]+/,/^[\n]/,/^$/];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
 return parser;
