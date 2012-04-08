@@ -1,11 +1,11 @@
 describe("WikiParser", function() {
   it("parse macro as paragraphs", function() {
-    expect(p("{{ value }}{{ macro: hello\n  world }}")).
-    toEqual(["{{ value }}", "{{ macro: hello\n  world }}"])
+    expect(p("{{ table }}{{ macro: hello\n  world }}")).
+    toEqual(["{{ table }}", "{{ macro: hello\n  world }}"])
   });
   it("empty str before/after macro should be part of macro", function() {
-    expect(p("  {{ value }}  ")).
-    toEqual(["  {{ value }}  "])
+    expect(p("  {{ table }}  ")).
+    toEqual(["  {{ table }}  "])
   });
   it("parse text as paragraphs splitted by 2 new lines", function() {
     expect(p("hello\n\nworld")).
@@ -16,20 +16,20 @@ describe("WikiParser", function() {
     toEqual(["hello\nworld\n!"])
   });
   it("parse text and macro paragraphs", function() {
-    expect(p("hello{{ value }}\nworld\n!")).
-    toEqual(["hello", "{{ value }}", "\nworld\n!"]);
-    expect(p("hello\n{{ value\n  p1: xxx\n  p2: yyy\n}}\nworld\n\nhah!{{ ppp }}")).
-    toEqual(["hello\n", "{{ value\n  p1: xxx\n  p2: yyy\n}}", "\nworld", 'hah!', '{{ ppp }}']);
+    expect(p("hello{{ table }}\nworld\n!")).
+    toEqual(["hello", "{{ table }}", "\nworld\n!"]);
+    expect(p("hello\n{{ table\n  p1: xxx\n  p2: yyy\n}}\nworld\n\nhah!{{ ppp }}")).
+    toEqual(["hello\n", "{{ table\n  p1: xxx\n  p2: yyy\n}}", "\nworld", 'hah!', '{{ ppp }}']);
   });
   it("parse }} as text if there is no {{ before it", function() {
     expect(p("hello value }}!")).
     toEqual(["hello value }}!"]);
 
-    expect(p("hello value }} {{ value }}!")).
-    toEqual(["hello value }}", " {{ value }}", "!"]);
+    expect(p("hello value }} {{ table }}!")).
+    toEqual(["hello value }}", " {{ table }}", "!"]);
 
-    expect(p("hello value }\n\n {{ value }}!}}")).
-    toEqual(["hello value }", " {{ value }}", "!}}"]);
+    expect(p("hello value }\n\n {{ table }}!}}")).
+    toEqual(["hello value }", " {{ table }}", "!}}"]);
   });
   it("parse { as text", function() {
     expect(p("hello {!")).
@@ -53,7 +53,7 @@ describe("WikiParser", function() {
   });
 
   it("should reject empty paragraphs", function() {
-    expect(p("hello \n\n vv \n\n {{ value }}!}}")).
-    toEqual(["hello ", " vv ", " {{ value }}", "!}}"]);
+    expect(p("hello \n\n vv \n\n {{ table }}!}}")).
+    toEqual(["hello ", " vv ", " {{ table }}", "!}}"]);
   });
 });
