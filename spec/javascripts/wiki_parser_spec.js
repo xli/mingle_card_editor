@@ -7,4 +7,12 @@ describe("WikiParser", function() {
     var paragraphs = wiki_parser.parse("hello\n\nworld");
     expect(paragraphs).toEqual(["hello", "world"])
   });
+  it("parse text splitted by 1 new line as paragraph", function() {
+    var paragraphs = wiki_parser.parse("hello\nworld\n!");
+    expect(paragraphs).toEqual(["hello\nworld\n!"])
+  });
+  it("parse text and macro", function() {
+    var paragraphs = wiki_parser.parse("hello{{ value }}\nworld\n!");
+    expect(paragraphs).toEqual(["hello", '{{ value }}', "world\n!"]);
+  });
 });
