@@ -1,7 +1,11 @@
 describe("WikiParser", function() {
-  it("parse macro as paragraph", function() {
+  it("parse macro as paragraphs", function() {
     expect(p("{{ value }}{{ macro: hello\n  world }}")).
     toEqual(["{{ value }}", "{{ macro: hello\n  world }}"])
+  });
+  it("empty str before/after macro should be part of macro", function() {
+    expect(p("  {{ value }}  ")).
+    toEqual(["  {{ value }}  "])
   });
   it("parse text as paragraphs splitted by 2 new lines", function() {
     expect(p("hello\n\nworld")).
@@ -22,10 +26,10 @@ describe("WikiParser", function() {
     toEqual(["hello value }}!"]);
 
     expect(p("hello value }} {{ value }}!")).
-    toEqual(["hello value }} ", "{{ value }}", "!"]);
+    toEqual(["hello value }}", " {{ value }}", "!"]);
 
     expect(p("hello value }\n\n {{ value }}!}}")).
-    toEqual(["hello value }", "{{ value }}", "!}}"]);
+    toEqual(["hello value }", " {{ value }}", "!}}"]);
   });
   it("parse { as text", function() {
     expect(p("hello {!")).
@@ -41,5 +45,15 @@ describe("WikiParser", function() {
 
     expect(p("hello {% not exist %}!")).
     toEqual(["hello {% not exist %}!"]);
+  });
+
+  it("parse html element", function() {
+    expect(p("hello <pre>{%!</pre>")).
+    toEqual(["hello ", "<pre>{%!</pre>"]);
+  });
+
+  it("should reject empty paragraphs", function() {
+    expect(p("hello \n\n vv \n\n {{ value }}!}}")).
+    toEqual(["hello ", " vv ", " {{ value }}", "!}}"]);
   });
 });

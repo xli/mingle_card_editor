@@ -1,17 +1,16 @@
 (function($) {
   var macro = {
-    pattern: / *\{%\s*(\S*):?([^%]*)%\}(.*?)\{%\s*\1\s*%\}/m,
+    pattern: /[ ]*\{\{\s*([^}\s]*):?([^}]*)\}\}[ ]*/m,
     substitution: function(match) {
       return '<macro>' + match[0] + '</macro>';
     }
   };
   var body_macro = {
-    pattern: /\{\{\s*([^}\s]*):?([^}]*)\}\}/m,
+    pattern: /[ ]*\{%\s*(\S*):?([^%]*)%\}([^\{]|\{(?!\{%\s*\1\s*%\}))*\{%\s*\1\s*%\}[ ]*/m,
     substitution: function(match) {
       return '<body_macro>' + match[0] + '</body_macro>';
     }
   };
-
   function splitByHtmlElement(desc, callback) {
     return $($("<div></div>").html(desc)[0].childNodes);
   };
@@ -41,10 +40,10 @@
         content = gsub(content, rule.pattern, rule.substitution);
       });
       return _.filter(_.flatten(_.map(splitByHtmlElement(content), function(element) {
-        if (element.outerHTML) {
-          return element.innerHTML;
-        } else {
+        if (element.data) {
           return element.data.split(/\n\n/);
+        } else {
+          return element.tagName.match(/macro/i) ? element.innerHTML : element.outerHTML;
         }
       })), function(it) {
         return it.match(/\S/);
