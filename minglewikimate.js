@@ -3,88 +3,13 @@
 
   var mingle_wiki_parser = {
     parse: function(desc) {
-      var story = [];
-      function nextId() {
-        return 'story_item_' + story.length;
+      function nextId(index) {
+        return 'story_item_' + index;
       }
-      var splitByMacro = this.splitByMacro;
-      this.splitByHtmlElement(desc, function(element) {
-        if (element.outerHTML) {
-          story.push({id: nextId(), type: 'paragraph', text: element.outerHTML});
-        } else {
-          splitByMacro(element.data, function(text) {
-            story.push({id: nextId(), type: 'paragraph', text: text});
-          });
-        }
+      return _.map(wiki_parser.parse(desc), function(text, i) {
+        return {id: nextId(i), type: 'paragraph', text: text};
       });
-      return story;
     },
-    splitByMacro: function(text, callback) {
-      var group = [];
-      while(text.length > 0) {
-        var i = text.search("{");
-        if (i >=0 && i < (text.length - 1)) {
-          switch(text[i + 1]) {
-            case '{':
-              var rest = text.substring(i);
-              var endAt = rest.search("}}");
-              if (endAt < 0) {
-                group.push(text.substring(0, i+2));
-                text = text.substring(i+2);
-                continue;
-              }
-              if(i > 0) {
-                group.push(text.substring(0, i));
-              }
-              callback(group.join(''));
-              group = [];
-              callback(rest.substring(0, endAt + 2));
-              text = rest.substring(endAt + 2);
-              break;
-            case '%':
-              var rest = text.substring(i);
-              var headEnd = rest.search("%}");
-              if (headEnd < 0) {
-                group.push(text.substring(0, i+2));
-                text = text.substring(i+2);
-                continue;
-              }
-              var head = rest.substring(2, headEnd).replace(/\s+/, '\\s+');
-              rest = rest.substring(headEnd + 2);
-              var endAt = rest.search(new RegExp("{%\s*" + head + "\s*%}", 'im'));
-              if (endAt < 0) {
-                group.push(text.substring(0, i + 2));
-                text = text.substring(i + 2);
-                continue;
-              }
-              if(i > 0) {
-                group.push(text.substring(0, i));
-              }
-              callback(group.join(''));
-              group = [];
-              var x = rest.substring(0, endAt);
-              rest = rest.substring(endAt);
-              var ee = rest.search(/%\}/) + 2;
-              x += rest.substring(0, ee);
-              callback(x);
-
-              text = rest.substring(ee);
-              break;
-          }
-        } else {
-          group.push(text);
-          text = '';
-        }
-      }
-      if (group.length > 0) {
-        callback(group.join(''));
-      }
-    },
-    splitByHtmlElement: function(desc, callback) {
-      $($("<div></div>").html(desc)[0].childNodes).each(function(i, element) {
-        callback(element);
-      });
-    }
   }
 
   function executeMQL(mql, onSuccess) {
