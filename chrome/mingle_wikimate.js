@@ -2,18 +2,35 @@
   window.baseUrl = "/api/v2/projects/";
   var editingCard = null;
   var render_from_server_paragraph = {
+    // status: ['rendered', 'rendering', 'editing']
+    //   rendering => rendered
+    //   rendered => editing
+    //   editing => rendering
     emit: function(div, item) {
-      renderWiki(item.text, function(html) {
-        div.html(html);
-        div.unbind('dblclick').dblclick(function(e) {
-          e.stopPropagation();
-          return wikimate.plainTextEditor(div, item).focus();
+      if (item.text == "") {
+        div.data('status', 'rendered');
+        return div.empty();
+      } else {
+        div.data('status', 'rendering');
+        renderWiki(item.text, function(html) {
+          if (div.data('status') == 'rendering') {
+            div.data('status', 'rendered');
+            div.html(html);
+          }
         });
-      });
-      return div.html('<img src="/images/spinner.gif" title="loading..."/>');
+        return div.html('<img src="/images/spinner.gif" title="loading..."/>');
+      }
     },
     bind: function(div, item) {
-      return null;
+      div.unbind('dblclick').dblclick(function(e) {
+        e.stopPropagation();
+        if (div.data('status') == 'rendering') {
+          alert("rendering " + item.text);
+        } else {
+          div.data('status', 'editing');
+          return wikimate.plainTextEditor(div, item).focus();
+        }
+      });
     }
   }
 
