@@ -1,0 +1,13 @@
+.wikimate-story {
+  min-height: 60px;
+}
+
+.wikimate-story .item {
+}
+
+.wikimate-story .item .plain-text-editor {
+  width: 99%;
+  min-height: 50px;
+  font-size: 1em;
+  overflow: hidden;
+}

@@ -17,7 +17,8 @@
          "paragraph.js",
          "wiki_parser.js",
          "mingle_wikimate.js"
-       ]
+       ],
+       "css": ["wikimate.css"]
      }
    ],
   "permissions": []
