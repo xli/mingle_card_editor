@@ -1,16 +1,23 @@
 (function($) {
+  var inline_macros = ['value', 'project', 'project-variable'];
   var macro = {
-    pattern: /[ ]*\{\{\s*([^}\s]*):?([^}]*)\}\}[ ]*/m,
+    pattern: /[ ]*\{\{\s*([^}\s:]*):?([^}]*)\}\}[ ]*/m,
     substitution: function(match) {
-      return '<macro>' + match[0] + '</macro>';
+      if(inline_macros.indexOf(match[1]) >= 0) {
+        return match[0];
+      } else {
+        return '<macro>' + match[0] + '</macro>';
+      }
     }
   };
+
   var body_macro = {
     pattern: /[ ]*\{%\s*(\S*):?([^%]*)%\}([^\{]|\{(?!\{%\s*\1\s*%\}))*\{%\s*\1\s*%\}[ ]*/m,
     substitution: function(match) {
       return '<body_macro>' + match[0] + '</body_macro>';
     }
   };
+
   function splitByHtmlElement(desc, callback) {
     return $($("<div></div>").html(desc)[0].childNodes);
   };
@@ -43,10 +50,14 @@
         if (element.data) {
           return element.data.split(/\n\n/);
         } else {
-          return element.tagName.match(/macro/i) ? element.innerHTML : element.outerHTML;
+          if (element.tagName.match(/macro/i)) {
+            return {type: element.tagName.toLowerCase(), text: element.innerHTML};
+          } else {
+            return {type: 'html', text: element.outerHTML};
+          }
         }
       })), function(it) {
-        return it.match(/\S/);
+        return typeof(it) == 'string' ? it.match(/\S/) : true;
       });
     }
   }

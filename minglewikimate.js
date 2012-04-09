@@ -1,16 +1,26 @@
 (function($) {
   window.baseUrl = "http://localhost:3000/api/v2/projects/";
 
+  $.extend(wikimate.plugins, {
+    macro: wikimate.plugins.paragraph,
+    body_macro: wikimate.plugins.paragraph,
+    html: wikimate.plugins.paragraph
+  });
+
   var mingle_wiki_parser = {
     parse: function(desc) {
       function nextId(index) {
         return 'story_item_' + index;
       }
       return _.map(wiki_parser.parse(desc), function(text, i) {
-        return {id: nextId(i), type: 'paragraph', text: text};
+        if (typeof(text) == 'string') {
+          return {id: nextId(i), type: 'paragraph', text: text};
+        } else {
+          return $.extend({id: nextId(i)}, text);
+        }
       });
     },
-  }
+  };
 
   function executeMQL(mql, onSuccess) {
     jQuery.ajax({
@@ -72,7 +82,7 @@
   $(document).ready(function() {
     loadCard(project(), number());
   });
-})(jQuery)
+})(jQuery);
 
 
 // var story = eval($('.store textarea').val());
