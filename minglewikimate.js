@@ -1,10 +1,27 @@
 (function($) {
   window.baseUrl = "http://localhost:3000/api/v2/projects/";
+  var editingCard = null;
+  var render_from_server_paragraph = {
+    emit: function(div, item) {
+      renderWiki(item.text, function(html) {
+        div.html(html);
+        div.unbind('dblclick').dblclick(function(e) {
+          e.stopPropagation();
+          return wikimate.plainTextEditor(div, item).focus();
+        });
+      });
+      return div.html('<img src="http://localhost:3000/images/spinner.gif" title="loading..."/>');
+    },
+    bind: function(div, item) {
+      return null;
+    }
+  }
 
   $.extend(wikimate.plugins, {
-    macro: wikimate.plugins.paragraph,
-    body_macro: wikimate.plugins.paragraph,
-    html: wikimate.plugins.paragraph
+    paragraph: render_from_server_paragraph,
+    macro: render_from_server_paragraph,
+    body_macro: render_from_server_paragraph,
+    html: render_from_server_paragraph
   });
 
   var mingle_wiki_parser = {
@@ -22,10 +39,18 @@
     },
   };
 
-  function executeMQL(mql, onSuccess) {
+  function renderWiki(content, onSuccess) {
+    var card_id = editingCard.find('card id').text();
+    var paramStr = $.param({
+      content_provider: {
+        id: card_id,
+        type: 'card'
+      },
+      content: content
+    })
     jQuery.ajax({
-      url: window.baseUrl + "/cards/execute_mql.json?mql=" + mql,
-      dataType: 'json',
+      url: window.baseUrl + project() + "/render?" + paramStr,
+      dataType: 'html',
       success: onSuccess
     });
   };
@@ -62,7 +87,8 @@
   function loadCard(project, number) {
     step('Loading ' + project + ' card #' + number + ' description', function() {
       requestCard(project + '/cards/' + number, function(xmlDoc) {
-        renderWikiMate(parseCardDescription($(xmlDoc).find('card description').text()));
+        editingCard = $(xmlDoc);
+        renderWikiMate(parseCardDescription(editingCard.find('card description').text()));
       });
     });
   };
