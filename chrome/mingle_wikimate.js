@@ -7,6 +7,7 @@
     //   rendered => editing
     //   editing => rendering
     emit: function(div, item) {
+      div.data("item", item);
       if (item.text == "") {
         div.data('status', 'rendered');
         return div.empty();
@@ -59,7 +60,7 @@
   function renderWiki(content, onSuccess) {
     var card_id = editingCard.find('card id').text();
     var paramStr = $.param({
-      content_provider_x: {
+      content_provider: {
         id: card_id,
         type: 'card'
       },
@@ -78,7 +79,7 @@
       dataType: 'xml',
       success: onSuccess,
       failure: function(x) {
-        console.log('failed: ' + x);
+        console.log('requestCard failed: ' + x);
       }
     });
   };
@@ -88,8 +89,25 @@
   };
 
   function updateCardDescription(event, action) {
-    console.log("update: ");
-    console.log(action);
+    var desc = $.map($('.wikimate-story .item'), function(item) {
+      return $(item).data('item').text;
+    });
+    $('.wikimate-story').css('border-left', '2px solid yellow')
+    var url = window.baseUrl + project() + "/cards/" + number() + ".xml";
+    $.ajax({
+      url: url,
+      dataType: 'xml',
+      data: {card: {description: desc.join("\n")}},
+      type: 'PUT',
+      success: function(r) {
+        console.log(r);
+        $('.wikimate-story').css('border-left', '2px solid orange');
+      },
+      failure: function(r) {
+        console.log(r);
+        $('.wikimate-story').css('border-left', '2px solid red');
+      }
+    })
   };
 
   function parseCardDescription(description) {
