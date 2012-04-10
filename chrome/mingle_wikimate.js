@@ -90,14 +90,15 @@
 
   function updateCardDescription(event, action) {
     var desc = $.map($('.wikimate-story .item'), function(item) {
-      return $(item).data('item').text;
-    });
+      return $(item).data('item').text.trim();
+    }).join("\n\n");
+
     $('.wikimate-story').css('border-left', '2px solid yellow')
     var url = window.baseUrl + project() + "/cards/" + number() + ".xml";
     $.ajax({
       url: url,
       dataType: 'xml',
-      data: {card: {description: desc.join("\n")}},
+      data: {card: {description: desc}},
       type: 'PUT',
       success: function(r) {
         console.log(r);
