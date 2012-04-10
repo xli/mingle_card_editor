@@ -1,14 +1,15 @@
+
 .wikimate-story {
-  min-height: 60px;
-  border-left: 2px solid orange;
+  min-height: 100px;
 }
 
 .wikimate-story .item {
 }
 
 .wikimate-story .item .plain-text-editor {
-  width: 99%;
-  min-height: 50px;
   font-size: 1em;
+  line-height: 1em; /*must have, used for calculate textarea expected text height*/
   overflow: hidden;
+  min-height: 50px;
+  width: 99%;
 }

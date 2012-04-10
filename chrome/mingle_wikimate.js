@@ -69,7 +69,8 @@
     jQuery.ajax({
       url: window.baseUrl + project() + "/render?" + paramStr,
       dataType: 'html',
-      success: onSuccess
+      success: onSuccess,
+      failure: ajaxCallFailed
     });
   };
 
@@ -78,14 +79,8 @@
       url: window.baseUrl + uri + '.xml',
       dataType: 'xml',
       success: onSuccess,
-      failure: function(x) {
-        console.log('requestCard failed: ' + x);
-      }
+      failure: ajaxCallFailed
     });
-  };
-
-  function renderWikiMate(story) {
-    $('#content').empty().wikimate({story: story, change: updateCardDescription});
   };
 
   function updateCardDescription(event, action) {
@@ -93,7 +88,7 @@
       return $(item).data('item').text.trim();
     }).join("\n\n");
 
-    $('.wikimate-story').css('border-left', '2px solid yellow')
+    updatingCardDescription();
     var url = window.baseUrl + project() + "/cards/" + number() + ".xml";
     $.ajax({
       url: url,
@@ -101,14 +96,21 @@
       data: {card: {description: desc}},
       type: 'PUT',
       success: function(r) {
-        console.log(r);
-        $('.wikimate-story').css('border-left', '2px solid orange');
+        updatedCardDescription();
       },
-      failure: function(r) {
-        console.log(r);
-        $('.wikimate-story').css('border-left', '2px solid red');
-      }
+      failure: ajaxCallFailed
     })
+  };
+
+  function updatingCardDescription() {
+    $('.wikimate-story').css('border-left', '2px solid yellow');
+  };
+  function updatedCardDescription() {
+    $('.wikimate-story').css('border-left', '2px solid orange');
+  };
+  function ajaxCallFailed(ajax) {
+    console.log(ajax);
+    $('.wikimate-story').css('border-left', '2px solid red');
   };
 
   function parseCardDescription(description) {
@@ -118,10 +120,13 @@
   };
 
   function loadCard(project, number) {
+    updatingCardDescription();
     step('Loading ' + project + ' card #' + number + ' description', function() {
       requestCard(project + '/cards/' + number, function(xmlDoc) {
         editingCard = $(xmlDoc);
-        renderWikiMate(parseCardDescription(editingCard.find('card description').text()));
+        var story = parseCardDescription(editingCard.find('card description').text());
+        $('#content').empty().wikimate({story: story, change: updateCardDescription});
+        updatedCardDescription();
       });
     });
   };
@@ -153,7 +158,5 @@
   if (project() && number()) {
     console.log("on card show page: " + project() + " #" + number());
     loadCard(project(), number());
-  } else {
-    console.log("not on card show page");
   }
 })(jQuery);
