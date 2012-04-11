@@ -7,7 +7,6 @@
     //   rendered => editing
     //   editing => rendering
     emit: function(div, item) {
-      div.data("item", item);
       if (item.text == "") {
         div.data('status', 'rendered');
         return div.empty();
@@ -23,13 +22,14 @@
       }
     },
     bind: function(div, item) {
-      div.unbind('dblclick').dblclick(function(e) {
+      div.bind('click', function(e) {
         e.stopPropagation();
+        e.preventDefault();
         if (div.data('status') == 'rendering') {
           alert("rendering " + item.text);
         } else {
           div.data('status', 'editing');
-          return wikimate.plainTextEditor(div, item).focus();
+          div.trigger(wikimate.events.EDIT);
         }
       });
     }
