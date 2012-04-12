@@ -84,7 +84,7 @@
   };
 
   function updateCardDescription(event, action) {
-    var desc = $.map($('.wikimate-story .item'), function(item) {
+    var desc = $.map($('.wikimate .item'), function(item) {
       return $(item).data('item').text.trim();
     }).join("\n\n");
 
@@ -103,14 +103,15 @@
   };
 
   function updatingCardDescription() {
-    $('.wikimate-story').css('border-left', '2px solid yellow');
+    $('.wikimate').css('border-left', '2px solid yellow');
   };
   function updatedCardDescription() {
-    $('.wikimate-story').css('border-left', '2px solid orange');
+    $('.wikimate').css('border-left', '2px solid orange');
   };
   function ajaxCallFailed(ajax) {
+    console.log("Ajax call failed");
     console.log(ajax);
-    $('.wikimate-story').css('border-left', '2px solid red');
+    $('.wikimate').css('border-left', '2px solid red');
   };
 
   function parseCardDescription(description) {
