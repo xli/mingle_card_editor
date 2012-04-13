@@ -3,6 +3,10 @@ describe("WikiParser", function() {
     expect(p("{{ table }}{{ macro: hello\n  world }}")).
     toEqual([{type: 'macro', text: "{{ table }}"}, {type: 'macro', text: "{{ macro: hello\n  world }}"}])
   });
+  it("parse macro with > and <", function() {
+    expect(p("{{ macro: hello >< world }}")).
+    toEqual([{type: 'macro', text: "{{ macro: hello >< world }}"}])
+  });
   it("empty str before/after macro should be part of macro", function() {
     expect(p("  {{ table }}  ")).
     toEqual([{type: 'macro', text: "  {{ table }}  "}]);

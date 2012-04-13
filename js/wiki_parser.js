@@ -51,7 +51,7 @@
           return element.data.split(/\n\n/);
         } else {
           if (element.tagName.match(/macro/i)) {
-            return {type: element.tagName.toLowerCase(), text: element.innerHTML};
+            return {type: element.tagName.toLowerCase(), text: $(element).text()};
           } else {
             return {type: 'html', text: element.outerHTML};
           }
