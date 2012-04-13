@@ -15,7 +15,8 @@
         renderWiki(item.text, function(html) {
           if (div.data('status') == 'rendering') {
             div.data('status', 'rendered');
-            div.html(html);
+            div.find('img').remove();
+            div.append(html);
           }
         });
         return div.html('<img src="/images/spinner.gif" title="loading..."/>');
