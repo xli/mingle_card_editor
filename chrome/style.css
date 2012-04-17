@@ -7,6 +7,10 @@
   padding-bottom: 2em;
 }
 
+.wikimate-story .item .item-handle {
+  background-image: url("chrome-extension://dllagpoibjppjadahdpjhcpjgfglphkc/drag_hand.png") !important;
+}
+
 .wikimate .undo {
   position: absolute;
   top: 10px;
