@@ -1,0 +1,16 @@
+.wikimate {
+  position: relative;
+}
+
+.wikimate-story {
+  min-height: 100px;
+  padding-bottom: 2em;
+}
+
+.wikimate .undo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+}
+

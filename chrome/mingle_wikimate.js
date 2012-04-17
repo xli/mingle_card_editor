@@ -85,8 +85,8 @@
   };
 
   function updateCardDescription(event, action) {
-    var desc = $.map($('.wikimate .item'), function(item) {
-      return $(item).data('item').text.trim();
+    var desc = $.map($('.wikimate').wikimate('story'), function(item){
+      return item.text.trim();
     }).join("\n\n");
 
     updatingCardDescription();
@@ -128,6 +128,10 @@
         editingCard = $(xmlDoc);
         var story = parseCardDescription(editingCard.find('card description').text());
         $('#content').empty().wikimate({story: story, change: updateCardDescription});
+        $('.wikimate').append($('<button>Undo</button>').addClass('undo').click(function(e) {
+          $('.wikimate').wikimate('undo');
+          updateCardDescription();
+        }));
         updatedCardDescription();
       });
     });

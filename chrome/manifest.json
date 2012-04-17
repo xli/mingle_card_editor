@@ -22,7 +22,7 @@
          "wiki_parser.js",
          "mingle_wikimate.js"
        ],
-       "css": ["wikimate.css"]
+       "css": ["wikimate.css", "style.css"]
      }
    ],
   "permissions": []
