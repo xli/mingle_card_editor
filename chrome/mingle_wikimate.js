@@ -1,6 +1,11 @@
 (function($) {
   window.baseUrl = "/api/v2/projects/";
   var editingCard = null;
+  var clickableElement = function(ele) {
+    return _.any(['a', 'input', 'textarea', 'button', 'object'], function(tn) {
+      return jQuery.nodeName(ele, tn);
+    });
+  };
   var render_from_server_paragraph = {
     // status: ['rendered', 'rendering', 'editing']
     //   rendering => rendered
@@ -24,8 +29,9 @@
     },
     bind: function(div, item) {
       div.bind('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
+        if (clickableElement(e.target)) {
+          return;
+        }
         if (div.data('status') == 'rendering') {
           alert("rendering " + item.text);
         } else {
