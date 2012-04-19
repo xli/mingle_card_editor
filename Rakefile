@@ -15,11 +15,9 @@ end
 
 task :chrome => :clean do
   mkdir_p 'tmp'
-  cp Dir['./../wikimate/public/javascripts/jquery-ui-1.8.18.custom.min.js'], './tmp/'
-  cp Dir['./../wikimate/public/javascripts/plugins/paragraph.js'], './tmp/'
-  cp Dir['./../wikimate/public/javascripts/wikimate.js'], './tmp/'
-  cp Dir['./../wikimate/public/stylesheets/wikimate.css'], './tmp/'
-  cp Dir['./../wikimate/public/images/*'], './tmp/'
+  cp Dir['./../wikimate/dist/wikimate-min.js'], './tmp/'
+  cp Dir['./../wikimate/src/css/wikimate.css'], './tmp/'
+  cp Dir['./../wikimate/src/images/*'], './tmp/'
   cp Dir['./chrome/*'], './tmp/'
   cp Dir['./js/*'], './tmp/'
 end
