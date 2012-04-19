@@ -28,12 +28,13 @@
       }
     },
     bind: function(div, item) {
+      var $this = this;
       div.bind('click', function(e) {
-        if (clickableElement(e.target)) {
+        if (clickableElement(e.target) || !$this.story_item('editable')) {
           return;
         }
         if (div.data('status') == 'rendering') {
-          alert("rendering " + item.text);
+          alert("Please wait for server rendering " + item.text + "");
         } else {
           div.data('status', 'editing');
           div.trigger(wikimate.events.EDIT);
