@@ -14,14 +14,14 @@ end
 
 
 task :chrome => :clean do
-  mkdir_p 'tmp'
-  cp Dir['./../wikimate/dist/wikimate-min.js'], './tmp/'
-  cp Dir['./../wikimate/src/css/wikimate.css'], './tmp/'
-  cp Dir['./../wikimate/src/images/*'], './tmp/'
-  cp Dir['./chrome/*'], './tmp/'
-  cp Dir['./js/*'], './tmp/'
+  mkdir_p 'mingle_card_editor'
+  cp Dir['./../wikimate/dist/wikimate-min.js'], './mingle_card_editor/'
+  cp Dir['./../wikimate/src/css/wikimate.css'], './mingle_card_editor/'
+  cp Dir['./../wikimate/src/images/*'], './mingle_card_editor/'
+  cp Dir['./chrome/*'], './mingle_card_editor/'
+  cp Dir['./js/*'], './mingle_card_editor/'
 end
 
 task :clean do
-  rm_rf 'tmp'
+  rm_rf 'mingle_card_editor'
 end
