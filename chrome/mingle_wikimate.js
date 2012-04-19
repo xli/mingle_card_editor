@@ -1,54 +1,6 @@
 (function($) {
   window.baseUrl = "/api/v2/projects/";
   var editingCard = null;
-  var clickableElement = function(ele) {
-    return _.any(['a', 'input', 'textarea', 'button', 'object'], function(tn) {
-      return jQuery.nodeName(ele, tn);
-    });
-  };
-  var render_from_server_paragraph = {
-    // status: ['rendered', 'rendering', 'editing']
-    //   rendering => rendered
-    //   rendered => editing
-    //   editing => rendering
-    emit: function(div, item) {
-      if (item.text == "") {
-        div.data('status', 'rendered');
-        return div.empty();
-      } else {
-        div.data('status', 'rendering');
-        renderWiki(item.text, function(html) {
-          if (div.data('status') == 'rendering') {
-            div.data('status', 'rendered');
-            div.find('img').remove();
-            div.append(html);
-          }
-        });
-        return div.html('<img src="/images/spinner.gif" title="loading..."/>');
-      }
-    },
-    bind: function(div, item) {
-      var $this = this;
-      div.bind('click', function(e) {
-        if (clickableElement(e.target) || !$this.story_item('editable')) {
-          return;
-        }
-        if (div.data('status') == 'rendering') {
-          alert("Please wait for server rendering " + item.text + "");
-        } else {
-          div.data('status', 'editing');
-          div.trigger(wikimate.events.EDIT);
-        }
-      });
-    }
-  }
-
-  $.extend(wikimate.plugins, {
-    paragraph: render_from_server_paragraph,
-    macro: render_from_server_paragraph,
-    body_macro: render_from_server_paragraph,
-    html: render_from_server_paragraph
-  });
 
   var mingle_wiki_parser = {
     parse: function(desc) {
@@ -65,25 +17,27 @@
     },
   };
 
-  function renderWiki(content, onSuccess) {
-    var card_id = editingCard.find('card id').text();
-    var paramStr = $.param({
-      content_provider: {
-        id: card_id,
-        type: 'card'
-      },
-      content: content
-    });
-    jQuery.ajax({
-      url: window.baseUrl + project() + "/render?" + paramStr,
-      dataType: 'html',
-      success: onSuccess,
-      failure: ajaxCallFailed
-    });
-  };
+  window.mingle_wikimate = {
+    renderWiki: function(content, onSuccess) {
+      var card_id = editingCard.find('card id').text();
+      var paramStr = $.param({
+        content_provider: {
+          id: card_id,
+          type: 'card'
+        },
+        content: content
+      });
+      $.ajax({
+        url: window.baseUrl + project() + "/render?" + paramStr,
+        dataType: 'html',
+        success: onSuccess,
+        failure: ajaxCallFailed
+      });
+    }
+  }
 
   function requestCard(uri, onSuccess) {
-    jQuery.ajax({
+    $.ajax({
       url: window.baseUrl + uri + '.xml',
       dataType: 'xml',
       success: onSuccess,
