@@ -25,3 +25,5 @@ end
 task :clean do
   rm_rf 'mingle_card_editor'
 end
+
+task :default => :chrome
