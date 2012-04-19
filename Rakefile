@@ -17,7 +17,6 @@ task :chrome => :clean do
   mkdir_p 'mingle_card_editor'
   cp Dir['./../wikimate/dist/wikimate-min.js'], './mingle_card_editor/'
   cp Dir['./../wikimate/src/css/wikimate.css'], './mingle_card_editor/'
-  cp Dir['./../wikimate/src/images/*'], './mingle_card_editor/'
   cp Dir['./chrome/*'], './mingle_card_editor/'
   cp Dir['./js/*'], './mingle_card_editor/'
 end
