@@ -134,10 +134,6 @@
         editingCard = $(xmlDoc);
         var story = parseCardDescription(editingCard.find('card description').text());
         $('#content').empty().wikimate({story: story, change: updateCardDescription});
-        $('.wikimate').append($('<button>Undo</button>').addClass('undo').click(function(e) {
-          $('.wikimate').wikimate('undo');
-          updateCardDescription();
-        }));
         updatedCardDescription();
       });
     });
