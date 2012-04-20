@@ -23,3 +23,8 @@
 .wikimate-journal .action {
   min-width: 24px !important;
 }
+
+.wikimate-story .item .plain-text-editor {
+  min-height: 5em !important;
+}
+
