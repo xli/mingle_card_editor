@@ -15,7 +15,7 @@
         return div.empty();
       } else {
         div.data('status', 'rendering');
-        window.mingle_wikimate.renderWiki(item.text, function(html) {
+        this.parents('.mingle_card_editor').mingle_card_editor('renderWiki', item.text, function(html) {
           if (div.data('status') == 'rendering') {
             div.data('status', 'rendered');
             div.find('img').remove();

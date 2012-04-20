@@ -1,7 +1,4 @@
 (function($) {
-  window.baseUrl = "/api/v2/projects/";
-  var editingCard = null;
-
   var mingle_wiki_parser = {
     parse: function(desc) {
       function nextId(index) {
@@ -17,109 +14,98 @@
     },
   };
 
-  window.mingle_wikimate = {
-    renderWiki: function(content, onSuccess) {
-      var card_id = editingCard.find('card id').text();
-      var paramStr = $.param({
-        content_provider: {
-          id: card_id,
-          type: 'card'
-        },
-        content: content
-      });
-      $.ajax({
-        url: window.baseUrl + project() + "/render?" + paramStr,
-        dataType: 'html',
-        success: onSuccess,
-        failure: ajaxCallFailed
-      });
+  $.plugin('mingle_card_editor', (function() {
+    var baseUrl = "/api/v2/projects/";
+    var editingCard;
+    var project;
+    var number;
+    function card_uri() {
+      return baseUrl + project + "/cards/" + number
     }
-  }
+    function ajaxErrorHandler(x) {
+      console.log(x);
+      $this.mingle_card_editor('status', 'error');
+    }
 
-  function requestCard(uri, onSuccess) {
-    $.ajax({
-      url: window.baseUrl + uri + '.xml',
-      dataType: 'xml',
-      success: onSuccess,
-      failure: ajaxCallFailed
-    });
-  };
-
-  function updateCardDescription(event, action) {
-    var desc = $.map($('.wikimate').wikimate('story'), function(item){
-      return item.text.trim();
-    }).join("\n\n");
-
-    updatingCardDescription();
-    var url = window.baseUrl + project() + "/cards/" + number() + ".xml";
-    $.ajax({
-      url: url,
-      dataType: 'xml',
-      data: {card: {description: desc}},
-      type: 'PUT',
-      success: function(r) {
-        updatedCardDescription();
+    return {
+      init: function(card) {
+        project = card.project;
+        number = card.number;
+        this.mingle_card_editor('status', 'loading');
+        var $this = this.addClass('mingle_card_editor');
+        $.ajax({
+          url: card_uri() + '.xml',
+          dataType: 'xml',
+          success: function(xmlDoc) {
+            $this.mingle_card_editor('initWikiMate', xmlDoc);
+            $this.mingle_card_editor('status', 'idle');
+          },
+          failure: ajaxErrorHandler
+        });
+        return this;
       },
-      failure: ajaxCallFailed
-    })
-  };
 
-  function updatingCardDescription() {
-    $('.wikimate').css('border-left', '2px solid yellow');
-  };
-  function updatedCardDescription() {
-    $('.wikimate').css('border-left', '2px solid orange');
-  };
-  function ajaxCallFailed(ajax) {
-    console.log("Ajax call failed");
-    console.log(ajax);
-    $('.wikimate').css('border-left', '2px solid red');
-  };
+      initWikiMate: function(cardDoc) {
+        editingCard = $(cardDoc);
+        var story = mingle_wiki_parser.parse(editingCard.find('card description').text());
+        var $this = this;
+        this.empty().wikimate({story: story, change: function(event, action) {
+          $this.mingle_card_editor('update', event, action);
+        }});
+      },
 
-  function parseCardDescription(description) {
-    return step('Parsing description', function() {
-      return mingle_wiki_parser.parse(description);
-    });
-  };
+      update: function(event, action) {
+        this.mingle_card_editor('status', 'updating');
+        var desc = $.map(this.wikimate('story'), function(item){
+          return item.text.trim();
+        }).join("\n\n");
 
-  function loadCard(project, number) {
-    updatingCardDescription();
-    step('Loading ' + project + ' card #' + number + ' description', function() {
-      requestCard(project + '/cards/' + number, function(xmlDoc) {
-        editingCard = $(xmlDoc);
-        var story = parseCardDescription(editingCard.find('card description').text());
-        $('#content').empty().wikimate({story: story, change: updateCardDescription});
-        updatedCardDescription();
-      });
-    });
-  };
+        var $this = this;
+        $.ajax({
+          url: card_uri() + ".xml",
+          dataType: 'xml',
+          data: {card: {description: desc}},
+          type: 'PUT',
+          success: function(r) {
+            $this.mingle_card_editor('status', 'idle');
+          },
+          failure: ajaxErrorHandler
+        });
+        return this;
+      },
 
-  function cardPageMatch() {
-    return window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)$/);
-  };
+      renderWiki: function(content, onSuccess) {
+        var card_id = editingCard.find('card id').text();
+        var paramStr = $.param({
+          content_provider: {id: card_id, type: 'card'},
+          content: content
+        });
+        $.ajax({
+          url: baseUrl + project + "/render?" + paramStr,
+          dataType: 'html',
+          success: onSuccess,
+          failure: ajaxErrorHandler
+        });
+      },
 
-  function project() {
-    var match = cardPageMatch();
-    if (match) {
-      return match[1];
-    }
-    return undefined;
-  };
-  function number() {
-    var match = cardPageMatch();
-    if (match) {
-      return match[2];
-    }
-    return undefined;
-  };
+      status: function(newStatus) {
+        switch(newStatus) {
+          case 'loading':
+          case 'updating':
+            this.css('border-left', '2px solid yellow');
+            break;
+          case 'error':
+            this.css('border-left', '2px solid red');
+            break;
+          default:
+            this.css('border-left', '2px solid orange');
+        };
+      }
+    };
+  })());
 
-  function step(msg, func) {
-    $('#wiki').append(msg + "<br/>");
-    return func.call();
-  };
-
-  if (project() && number()) {
-    console.log("on card show page: " + project() + " #" + number());
-    loadCard(project(), number());
+  var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)$/);
+  if (match) {
+    $('#content').mingle_card_editor({project: match[1], number: match[2]});
   }
 })(jQuery);
