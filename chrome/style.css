@@ -1,15 +1,9 @@
 .wikimate {
-  position: relative;
   padding-bottom: 0 !important;
   margin-bottom: 5px !important;
 }
 
-.wikimate-story {
-  min-height: 100px;
-  padding-bottom: 2em;
-}
-
-.wikimate-story .item .item-handle {
+.wikimate-story .item .item-content .item-handle {
   background-image: url("/images/shared/icons/icon_draggable_vertical.png") !important;
 }
 

@@ -27,7 +27,7 @@
     },
     bind: function(div, item) {
       var $this = this;
-      div.bind('click', function(e) {
+      div.bind('dblclick', function(e) {
         if (clickableElement(e.target) || !$this.story_item('editable')) {
           return;
         }
@@ -35,7 +35,7 @@
           alert("Please wait for server rendering " + item.text + "");
         } else {
           div.data('status', 'editing');
-          div.trigger(wikimate.events.EDIT);
+          $this.story_item('edit')
         }
       });
     }
