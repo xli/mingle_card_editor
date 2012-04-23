@@ -34,3 +34,8 @@
   left: 20px;
   top: -4px;
 }
+
+.ui-sortable-helper {
+  font-weight: normal;
+  padding: 0px 5px;
+}
