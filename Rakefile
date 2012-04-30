@@ -18,7 +18,8 @@ task :chrome => :clean do
   cp Dir['./../wikimate/dist/wikimate-min.js'], './mingle_card_editor/'
   cp Dir['./../wikimate/src/css/wikimate.css'], './mingle_card_editor/'
   cp Dir['./chrome/*'], './mingle_card_editor/'
-  cp Dir['./js/*'], './mingle_card_editor/'
+  cp Dir['./js/*.js'], './mingle_card_editor/'
+  cp_r Dir['./js/tiny_mce_3_4_9'], './mingle_card_editor/'
 end
 
 task :clean do
