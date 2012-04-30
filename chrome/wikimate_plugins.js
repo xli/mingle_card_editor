@@ -38,14 +38,17 @@
           $this.story_item('edit')
         }
       });
+    },
+    edit: function(item) {
+      return this.wikimate_text_editor('init');
     }
   }
 
   $.extend(wikimate.plugins, {
     paragraph: render_from_server_paragraph,
-    macro: render_from_server_paragraph,
-    body_macro: render_from_server_paragraph,
-    html: render_from_server_paragraph
+    macro: $.extend({title: 'Macro'}, render_from_server_paragraph),
+    body_macro: $.extend({title: 'Body Macro'}, render_from_server_paragraph),
+    html: $.extend({title: 'Html'}, render_from_server_paragraph)
   });
 })(jQuery);
 
