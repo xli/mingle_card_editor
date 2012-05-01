@@ -156,8 +156,10 @@ jQuery.noConflict();
     };
   })());
 
-  var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)$/);
+  var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
     $('#content').mingle_card_editor({project: match[1], number: match[2]});
+  } else {
+    alert("Please try Mingle Card Editor at Mingle card show page.");
   }
 })(jQuery);
