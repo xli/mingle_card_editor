@@ -1,0 +1,41 @@
+.wikimate {
+  padding-bottom: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.wikimate-story .item .item-content .item-handle {
+  background-image: url("../images/icon_draggable_vertical.png") !important;
+}
+
+.wikimate .undo {
+  position: absolute;
+  bottom: 2px;
+  right: 12px;
+  padding: 5px;
+}
+
+.wikimate-journal .action {
+  min-width: 24px !important;
+  border-radius: 5px;
+  border: 1px solid #BBB;
+  background: url("../images/default_user_avatar.png") left bottom no-repeat;
+  background-size: 30px 30px;
+  position: relative;
+}
+
+.wikimate-story .item .plain-text-editor {
+  min-height: 5em !important;
+}
+
+.wikimate-journal .action img {
+  height: 12px;
+  width: 12px;
+  position: absolute;
+  left: 20px;
+  top: -4px;
+}
+
+.ui-sortable-helper {
+  font-weight: normal;
+  padding: 0px 5px;
+}

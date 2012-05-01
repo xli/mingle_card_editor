@@ -63,4 +63,4 @@
   }
   window.wiki_parser = parser;
   return parser;
-})(jQuery)
+})(jQuery);

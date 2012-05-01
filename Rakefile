@@ -8,22 +8,33 @@ rescue LoadError
   end
 end
 
-task :c do
-  `jison jison/wiki_parser.jison -o js/wiki_parser.js`
-end
+task :bookmarklet => :clean do
+  version = '1.0'
+  mkdir_p 'card_editor'
+  mkdir_p 'card_editor/css'
+  File.open("./card_editor/card_editor-#{version}.js", 'w') do |io|
+    io.write(File.read('lib/jquery-1.7.2.js'))
+    io.write(File.read('lib/jquery-ui-1.8.18.custom.min.js'))
+    io.write(File.read('lib/underscore-1.3.1.js'))
+    io.write(File.read('lib/diff.js'))
+    io.write(File.read('./../wikimate/dist/wikimate.js'))
+    io.write(File.read('src/js/wiki_parser.js'))
+    io.write(File.read('src/js/wikimate_plugins.js'))
+    io.write(File.read('src/js/mingle_wikimate.js'))
+  end
 
-
-task :chrome => :clean do
-  mkdir_p 'mingle_card_editor'
-  cp Dir['./../wikimate/dist/wikimate-min.js'], './mingle_card_editor/'
-  cp Dir['./../wikimate/src/css/wikimate.css'], './mingle_card_editor/'
-  cp Dir['./chrome/*'], './mingle_card_editor/'
-  cp Dir['./js/*.js'], './mingle_card_editor/'
-  cp_r Dir['./js/tiny_mce_3_4_9'], './mingle_card_editor/'
+  cp_r './lib/tiny_mce_3_4_9', './card_editor/'
+  cp_r './src/images', './card_editor/'
+  cp './src/js/loader.js', "./card_editor/loader.js"
+  cp './../wikimate/src/css/wikimate.css', "./card_editor/css/wikimate-#{version}.css"
+  cp './src/css/style.css', "./card_editor/css/style-#{version}.css"
+  cp './bookmarklet/index.html', './card_editor/'
+  puts "uglifyjs..."
+  %x[uglifyjs ./card_editor/card_editor-#{version}.js > ./card_editor/card_editor-#{version}.min.js]
 end
 
 task :clean do
-  rm_rf 'mingle_card_editor'
+  rm_rf 'card_editor'
 end
 
-task :default => :chrome
+task :default => :bookmarklet

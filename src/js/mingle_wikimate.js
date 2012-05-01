@@ -1,3 +1,4 @@
+jQuery.noConflict();
 (function($) {
   var mingle_wiki_parser = {
     parse: function(desc) {
