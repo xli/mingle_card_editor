@@ -20,7 +20,7 @@ task :bookmarklet => :clean do
     io.write(File.read('./../wikimate/dist/wikimate.js'))
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
-    io.write(File.read('src/js/mingle_wikimate.js'))
+    io.write(File.read('src/js/card_editor.js'))
   end
 
   cp_r './lib/tiny_mce_3_4_9', './card_editor/'

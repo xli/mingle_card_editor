@@ -1,21 +1,23 @@
 jQuery.noConflict();
 (function($) {
-  var mingle_wiki_parser = {
-    parse: function(desc) {
-      function nextId(index) {
-        return 'story_item_' + index;
-      }
-      return _.map(wiki_parser.parse(desc), function(text, i) {
-        if (typeof(text) == 'string') {
-          return {id: nextId(i), type: 'paragraph', text: text};
-        } else {
-          return $.extend({id: nextId(i)}, text);
-        }
-      });
+  var mingle_wiki_parser = (function() {
+    function nextId(index) {
+      return 'story_item_' + index;
     }
-  };
+    return {
+      parse: function(desc) {
+        return _.map(window.wiki_parser.parse(desc), function(text, i) {
+          if (typeof(text) == 'string') {
+            return {id: nextId(i), type: 'paragraph', text: text};
+          } else {
+            return $.extend({id: nextId(i)}, text);
+          }
+        });
+      }
+    };
+  })();
 
-  $.plugin('mingle_card_editor', (function() {
+  $.plugin('card_editor', (function() {
     var baseUrl = "/api/v2/projects/";
     var editingCard;
     var project;
@@ -25,7 +27,7 @@ jQuery.noConflict();
     }
     function ajaxErrorHandler(x) {
       console.log(x);
-      $this.mingle_card_editor('status', 'error');
+      $this.card_editor('status', 'error');
     }
 
     var userIconCache = {};
@@ -77,14 +79,14 @@ jQuery.noConflict();
       init: function(card) {
         project = card.project;
         number = card.number;
-        this.mingle_card_editor('status', 'loading');
-        var $this = this.addClass('mingle_card_editor');
+        this.card_editor('status', 'loading');
+        var $this = this.addClass('card_editor');
         $.ajax({
           url: card_uri() + '.xml',
           dataType: 'xml',
           success: function(xmlDoc) {
-            $this.mingle_card_editor('initWikiMate', xmlDoc);
-            $this.mingle_card_editor('status', 'idle');
+            $this.card_editor('initWikiMate', xmlDoc);
+            $this.card_editor('status', 'idle');
           },
           failure: ajaxErrorHandler
         });
@@ -98,7 +100,7 @@ jQuery.noConflict();
         var journal = _.map(story, function(item) { return {id: item.id, type: 'add', item: item}; });
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
-          $this.mingle_card_editor('update', event, action);
+          $this.card_editor('update', event, action);
         }}).wikimate('journal', journal, function(actionElement) {
           updateUserIcon(user, actionElement);
           actionElement.html(actionImage(actionElement));
@@ -107,7 +109,7 @@ jQuery.noConflict();
       },
 
       update: function(event, action) {
-        this.mingle_card_editor('status', 'updating');
+        this.card_editor('status', 'updating');
         var desc = $.map(this.wikimate('story'), function(item){
           return item.text.trim();
         }).join("\n\n");
@@ -119,7 +121,7 @@ jQuery.noConflict();
           data: {card: {description: desc}},
           type: 'PUT',
           success: function(r) {
-            $this.mingle_card_editor('status', 'idle');
+            $this.card_editor('status', 'idle');
           },
           failure: ajaxErrorHandler
         });
@@ -158,7 +160,7 @@ jQuery.noConflict();
 
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
-    $('#content').mingle_card_editor({project: match[1], number: match[2]});
+    $('#content').card_editor({project: match[1], number: match[2]});
   } else {
     if (console) {
       console.log("Not on Mingle Card show page: ");

@@ -15,7 +15,7 @@
         return div.empty();
       } else {
         div.data('status', 'rendering');
-        this.parents('.mingle_card_editor').mingle_card_editor('renderWiki', item.text, function(html) {
+        this.parents('.card_editor').card_editor('renderWiki', item.text, function(html) {
           if (div.data('status') == 'rendering') {
             div.data('status', 'rendered');
             div.find('img').remove();
