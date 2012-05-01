@@ -20,22 +20,24 @@
 
   function splitByHtmlElement(desc, callback) {
     return $($("<div></div>").html(desc)[0].childNodes);
-  };
+  }
 
   function gsub(st, pattern, replacement) {
     var result = '', source = st, match;
 
     while (source.length > 0) {
-      if (match = source.match(pattern)) {
+      match = source.match(pattern);
+      if (match) {
         result += source.slice(0, match.index);
         result += replacement(match);
         source  = source.slice(match.index + match[0].length);
       } else {
-        result += source, source = '';
+        result += source;
+        source = '';
       }
     }
     return result;
-  };
+  }
 
   var parser = {
     rules: $([
@@ -60,7 +62,7 @@
         return typeof(it) == 'string' ? it.match(/\S/) : true;
       });
     }
-  }
+  };
   window.wiki_parser = parser;
   return parser;
 })(jQuery);

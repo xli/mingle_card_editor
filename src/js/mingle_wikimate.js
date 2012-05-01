@@ -12,7 +12,7 @@ jQuery.noConflict();
           return $.extend({id: nextId(i)}, text);
         }
       });
-    },
+    }
   };
 
   $.plugin('mingle_card_editor', (function() {
@@ -21,7 +21,7 @@ jQuery.noConflict();
     var project;
     var number;
     function card_uri() {
-      return baseUrl + project + "/cards/" + number
+      return baseUrl + project + "/cards/" + number;
     }
     function ajaxErrorHandler(x) {
       console.log(x);
@@ -64,11 +64,11 @@ jQuery.noConflict();
         "edit": '/images/icon-edit-pencil.gif',
         "remove": '/images/icon-source-delete.png',
         "move": '/images/icon-source-modify.png'
-      }
+      };
 
       return function (actionElement) {
-        return $('<img/>').attr('src', actionImages[actionElement.data('data').type])
-      }
+        return $('<img/>').attr('src', actionImages[actionElement.data('data').type]);
+      };
     })();
 
     var user;
@@ -151,7 +151,7 @@ jQuery.noConflict();
             break;
           default:
             this.css('border-left', '2px solid orange');
-        };
+        }
       }
     };
   })());

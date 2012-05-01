@@ -10,7 +10,7 @@
     //   rendered => editing
     //   editing => rendering
     emit: function(div, item) {
-      if (item.text == "") {
+      if (item.text === "") {
         div.data('status', 'rendered');
         return div.empty();
       } else {
@@ -35,14 +35,14 @@
           alert("Please wait for server rendering " + item.text + "");
         } else {
           div.data('status', 'editing');
-          $this.story_item('edit')
+          $this.story_item('edit');
         }
       });
     },
     edit: function(item) {
       return this.wikimate_text_editor('init');
     }
-  }
+  };
 
   $.extend(wikimate.plugins, {
     paragraph: render_from_server_paragraph,
