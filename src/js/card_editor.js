@@ -1,22 +1,5 @@
 jQuery.noConflict();
 (function($) {
-  var mingle_wiki_parser = (function() {
-    function nextId(index) {
-      return 'story_item_' + index;
-    }
-    return {
-      parse: function(desc) {
-        return _.map(window.wiki_parser.parse(desc), function(text, i) {
-          if (typeof(text) == 'string') {
-            return {id: nextId(i), type: 'paragraph', text: text};
-          } else {
-            return $.extend({id: nextId(i)}, text);
-          }
-        });
-      }
-    };
-  })();
-
   $.plugin('card_editor', (function() {
     var baseUrl = "/api/v2/projects/";
     var editingCard;
@@ -96,7 +79,7 @@ jQuery.noConflict();
       initWikiMate: function(cardDoc) {
         editingCard = $(cardDoc);
         user = editingCard.find('card modified_by').attr('url');
-        var story = mingle_wiki_parser.parse(editingCard.find('card description').text());
+        var story = window.wiki_parser.parse(editingCard.find('card description').text());
         var journal = _.map(story, function(item) { return {id: item.id, type: 'add', item: item}; });
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {

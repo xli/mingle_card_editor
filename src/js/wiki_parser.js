@@ -39,29 +39,39 @@
     return result;
   }
 
+
+  var index = 0;
+  function nextId() {
+    index++;
+    return 'story_item_' + index;
+  }
+
   var parser = {
     rules: $([
       macro,
       body_macro
     ]),
     parse: function(content) {
+      index = 0;
       this.rules.each(function(i, rule) {
         content = gsub(content, rule.pattern, rule.substitution);
       });
       var result = [];
       _.each(splitByHtmlElement(content), function(element) {
         if (element.data) {
-          result = result.concat(element.data.split(/\n\n/));
+          _.each(element.data.split(/\n\n/), function(text) {
+            result.push({id: nextId(), type: 'paragraph', text: text});
+          })
         } else {
           if (element.tagName.match(/macro/i)) {
-            result.push({type: element.tagName.toLowerCase(), text: $(element).text()});
+            result.push({id: nextId(), type: element.tagName.toLowerCase(), text: $(element).text()});
           } else {
-            result.push({type: 'html', text: element.outerHTML});
+            result.push({id: nextId(), type: 'html', text: element.outerHTML});
           }
         }
       });
       return _.filter(result, function(it) {
-        return typeof(it) == 'string' ? it.match(/\S/) : true;
+        return it.text.match(/\S/);
       });
     }
   };
