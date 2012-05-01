@@ -48,17 +48,19 @@
       this.rules.each(function(i, rule) {
         content = gsub(content, rule.pattern, rule.substitution);
       });
-      return _.filter(_.flatten(_.map(splitByHtmlElement(content), function(element) {
+      var result = [];
+      _.each(splitByHtmlElement(content), function(element) {
         if (element.data) {
-          return element.data.split(/\n\n/);
+          result = result.concat(element.data.split(/\n\n/));
         } else {
           if (element.tagName.match(/macro/i)) {
-            return {type: element.tagName.toLowerCase(), text: $(element).text()};
+            result.push({type: element.tagName.toLowerCase(), text: $(element).text()});
           } else {
-            return {type: 'html', text: element.outerHTML};
+            result.push({type: 'html', text: element.outerHTML});
           }
         }
-      })), function(it) {
+      });
+      return _.filter(result, function(it) {
         return typeof(it) == 'string' ? it.match(/\S/) : true;
       });
     }

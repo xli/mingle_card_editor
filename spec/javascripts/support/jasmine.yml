@@ -11,7 +11,10 @@
 #   - dist/**/*.js
 #
 src_files:
-    - js/**/*.js
+    - lib/*.js
+    - src/js/wiki_parser.js
+    - src/js/mingle_wikimate.js
+    - src/js/wikimate_plugins.js
 
 # stylesheets
 #

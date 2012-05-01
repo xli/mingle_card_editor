@@ -160,6 +160,9 @@ jQuery.noConflict();
   if (match) {
     $('#content').mingle_card_editor({project: match[1], number: match[2]});
   } else {
-    alert("Please try Mingle Card Editor at Mingle card show page.");
+    if (console) {
+      console.log("Not on Mingle Card show page: ");
+      console.log(window.location.href);
+    }
   }
 })(jQuery);

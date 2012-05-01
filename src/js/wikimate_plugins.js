@@ -44,7 +44,7 @@
     }
   };
 
-  $.extend(wikimate.plugins, {
+  $.extend(window.wikimate.plugins, {
     paragraph: render_from_server_paragraph,
     macro: $.extend({title: 'Macro'}, render_from_server_paragraph),
     body_macro: $.extend({title: 'Body Macro'}, render_from_server_paragraph),

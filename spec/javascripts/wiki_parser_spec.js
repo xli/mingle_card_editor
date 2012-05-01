@@ -53,8 +53,8 @@ describe("WikiParser", function() {
   });
 
   it("parse html element", function() {
-    expect(p("hello <pre>{%!</pre>")).
-    toEqual(["hello ", {type: 'html', text: "<pre>{%!</pre>"}]);
+    expect(p("hello\n\nworld<p>{%!</p>")).
+    toEqual(["hello", 'world', {type: 'html', text: "<p>{%!</p>"}]);
   });
 
   it("should reject empty paragraphs", function() {
