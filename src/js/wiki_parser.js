@@ -69,7 +69,7 @@
         if (element.data) {
           _.each(element.data.split(/\n\n/), function(text) {
             result.push({id: nextId(), type: 'paragraph', text: text});
-          })
+          });
         } else {
           if (element.tagName.match(/macro/i)) {
             result.push({id: nextId(), type: element.tagName.toLowerCase(), text: $(element).text()});

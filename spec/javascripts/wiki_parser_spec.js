@@ -1,11 +1,11 @@
 describe("WikiParser", function() {
   it("parse macro as paragraphs", function() {
     expect(p("{{ table }}{{ macro: hello\n  world }}")).
-    toEqual([{id: 'story_item_1', type: 'macro', text: "{{ table }}"}, {id: 'story_item_2', type: 'macro', text: "{{ macro: hello\n  world }}"}])
+    toEqual([{id: 'story_item_1', type: 'macro', text: "{{ table }}"}, {id: 'story_item_2', type: 'macro', text: "{{ macro: hello\n  world }}"}]);
   });
   it("parse macro with > and <", function() {
     expect(p("{{ macro: hello >< world }}")).
-    toEqual([{id: 'story_item_1', type: 'macro', text: "{{ macro: hello >< world }}"}])
+    toEqual([{id: 'story_item_1', type: 'macro', text: "{{ macro: hello >< world }}"}]);
   });
   it("empty str before/after macro should be part of macro", function() {
     expect(p("  {{ table }}  ")).
