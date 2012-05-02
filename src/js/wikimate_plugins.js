@@ -51,6 +51,11 @@
       body_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph)
     });
+    window.wikimate.plugins.rdoc.editor_options = {
+      plugins: "advlink,advlist,autoresize,autolink,save,fullscreen,lists",
+      theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,fullscreen,|,justifyleft,justifycenter,justifyright",
+      theme_advanced_buttons2: ""
+    };
   } else {
     console.log("No window.wikimate or window.wikimate.plugins found");
   }
