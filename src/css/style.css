@@ -39,3 +39,11 @@
   font-weight: normal;
   padding: 0px 5px;
 }
+
+.todo {
+  margin: 10px;
+}
+.todo input {
+  margin-right: 5px;
+}
+
