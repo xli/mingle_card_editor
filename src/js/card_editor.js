@@ -3,6 +3,7 @@ jQuery.noConflict();
   $.plugin('card_editor', (function() {
     var baseUrl = "/api/v2/projects/";
     var editingCard;
+    var editingCardId;
     var project;
     var number;
     function card_uri() {
@@ -78,17 +79,39 @@ jQuery.noConflict();
 
       initWikiMate: function(cardDoc) {
         editingCard = $(cardDoc);
+        editingCardId = editingCard.find('card id').text();
         user = editingCard.find('card modified_by').attr('url');
         var story = window.wiki_parser.parse(editingCard.find('card description').text());
-        var journal = _.map(story, function(item) { return {id: item.id, type: 'add', item: item}; });
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
-        }}).wikimate('journal', journal, function(actionElement) {
-          updateUserIcon(user, actionElement);
-          actionElement.html(actionImage(actionElement));
-        });
+        }});
         user = currentUser();
+        $.ajax({
+          url: '/projects/' + project + '/cards/history?id=' + editingCardId,
+          dataType: 'html',
+          success: function(xmlDoc) {
+            var changes = $(xmlDoc).find('.card-event').filter(function(_, card_event) {
+              return $(card_event).find('.change').text().trim().match(/Description changed/);
+            });
+            var journal = _.map(story, function(item) { return {id: item.id, type: 'add', item: item}; });
+            var userIcons = changes.map(function(i, change) {
+              return $(change).find('.user-icon img');
+            }).toArray();
+
+            $this.wikimate('journal', journal, function(actionElement) {
+              var img = userIcons.pop();
+              if (img) {
+                actionElement.css('background-image', 'url(' + $(img).prop('src') + ')');
+              } else {
+                updateUserIcon(user, actionElement);
+              }
+              actionElement.html(actionImage(actionElement));
+            });
+            userIcons = [];
+          },
+          failure: ajaxErrorHandler
+        });
       },
 
       update: function(event, action) {
@@ -110,9 +133,8 @@ jQuery.noConflict();
       },
 
       renderWiki: function(content, onSuccess) {
-        var card_id = editingCard.find('card id').text();
         var paramStr = $.param({
-          content_provider: {id: card_id, type: 'card'},
+          content_provider: {id: editingCardId, type: 'card'},
           content: content
         });
         $.ajax({
