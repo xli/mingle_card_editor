@@ -48,8 +48,8 @@
     $.extend(window.wikimate.plugins, {
       paragraph: render_from_server_paragraph,
       macro: $.extend({title: 'Macro'}, render_from_server_paragraph),
-      body_macro: $.extend({title: 'Body Macro'}, render_from_server_paragraph),
-      html: $.extend({title: 'Html'}, render_from_server_paragraph)
+      body_macro: $.extend({}, render_from_server_paragraph),
+      html: $.extend({}, render_from_server_paragraph)
     });
   } else {
     console.log("No window.wikimate or window.wikimate.plugins found");

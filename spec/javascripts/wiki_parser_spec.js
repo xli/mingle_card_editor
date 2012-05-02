@@ -72,4 +72,28 @@ describe("WikiParser", function() {
     expect(p("hello {{ project-variable \n     name: 'card-plv' \n    project: #{other_project.identifier} \n}}")).
     toEqual([{id: 'story_item_1', type: 'paragraph', text: "hello {{ project-variable \n     name: 'card-plv' \n    project: #{other_project.identifier} \n}}"}]);
   });
+
+  it('parse out item that typed by attr story_item_type on the root html element', function() {
+    expect(p("<div story_item_type='todo'>task 1</div>")).
+    toEqual([{id: 'story_item_1', type: 'todo', text: "task 1"}]);
+
+    expect(p("<div story_item_type='rdoc'><h1>head</h1><div>body</div></div>")).
+    toEqual([{id: 'story_item_1', type: 'rdoc', text: "<h1>head</h1><div>body</div>"}]);
+  });
+
+  it('convert story items to string that can be saved to Mingle card', function() {
+    expect(d([{id: 'story_item_1', type: 'todo', text: "task 1"}])).
+    toEqual("<div story_item_type='todo'>task 1</div>");
+
+    expect(d([{id: 'story_item_1', type: 'paragraph', text: "p 1"}, {id: 'story_item_2', type: 'todo', text: "task 1"}])).
+    toEqual("p 1\n\n<div story_item_type='todo'>task 1</div>");
+
+    expect(d([{id: 'story_item_1', type: 'paragraph', text: "p 1"}, {id: 'story_item_2', type: 'todo', text: "task 1"}, {id: 'story_item_3', type: 'rdoc', text: "<ol><li>haha</li><li>hoho</li></ol>"}])).
+    toEqual("p 1\n\n<div story_item_type='todo'>task 1</div>\n\n<div story_item_type='rdoc'><ol><li>haha</li><li>hoho</li></ol></div>");
+  });
+
+  it('can parse out what is dumped', function() {
+    var story = [{id: 'story_item_1', type: 'paragraph', text: "p 1"}, {id: 'story_item_3', type: 'todo', text: "task 1"}, {id: 'story_item_6', type: 'rdoc', text: "<ol>\n<li>haha</li>\n<li>hoho</li>\n\n\n</ol>"}];
+    expect(p(d(story))).toEqual(story);
+  });
 });

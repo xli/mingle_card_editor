@@ -51,6 +51,14 @@
       macro,
       body_macro
     ]),
+    dump: function(story) {
+      return _.map(story, function(item){
+        if (item.type == 'todo' || item.type == 'rdoc') {
+          return "<div story_item_type='" + item.type + "'>" + item.text.trim() + "</div>";
+        }
+        return item.text.trim();
+      }).join("\n\n");
+    },
     parse: function(content) {
       index = 0;
       this.rules.each(function(i, rule) {
@@ -66,7 +74,12 @@
           if (element.tagName.match(/macro/i)) {
             result.push({id: nextId(), type: element.tagName.toLowerCase(), text: $(element).text()});
           } else {
-            result.push({id: nextId(), type: 'html', text: element.outerHTML});
+            var t = $(element).attr('story_item_type');
+            if (t) {
+              result.push({id: nextId(), type: t, text: $(element).html()});
+            } else {
+              result.push({id: nextId(), type: 'html', text: element.outerHTML});
+            }
           }
         }
       });

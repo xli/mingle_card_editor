@@ -93,9 +93,7 @@ jQuery.noConflict();
 
       update: function(event, action) {
         this.card_editor('status', 'updating');
-        var desc = $.map(this.wikimate('story'), function(item){
-          return item.text.trim();
-        }).join("\n\n");
+        var desc = wiki_parser.dump(this.wikimate('story'));
 
         var $this = this;
         $.ajax({
