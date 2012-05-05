@@ -14,51 +14,6 @@ jQuery.noConflict();
       $this.card_editor('status', 'error');
     }
 
-    var userIconCache = {};
-
-    function ajaxUpdateUserIcon(url, elements) {
-      $.ajax({
-        url: url,
-        dataType: 'xml',
-        success: function(xmlDoc) {
-          var icon_path = $(xmlDoc).find('icon_path').text();
-          if (icon_path) {
-            userIconCache[url] = icon_path;
-            updateUserIcon(url, elements);
-          }
-        },
-        failure: ajaxErrorHandler
-      });
-    }
-
-    function updateUserIcon(url, elements) {
-      if (userIconCache[url]) {
-        elements.css('background-image', 'url(' + userIconCache[url] + ')');
-      } else {
-        ajaxUpdateUserIcon(url, elements);
-      }
-    }
-
-    function currentUser() {
-      var currentUserId = $('#current-user a').attr('href').split('/')[3];
-      return "/api/v2/users/" + currentUserId + ".xml";
-    }
-
-    var actionImage = (function() {
-      var actionImages = {
-        "add": '/images/icon-source-add.png',
-        "edit": '/images/icon-edit-pencil.gif',
-        "remove": '/images/icon-source-delete.png',
-        "move": '/images/icon-source-modify.png'
-      };
-
-      return function (actionElement) {
-        return $('<img/>').attr('src', actionImages[actionElement.data('data').type]);
-      };
-    })();
-
-    var user;
-
     return {
       init: function(card) {
         project = card.project;
@@ -80,38 +35,11 @@ jQuery.noConflict();
       initWikiMate: function(cardDoc) {
         editingCard = $(cardDoc);
         editingCardId = editingCard.find('card id').text();
-        user = editingCard.find('card modified_by').attr('url');
         var story = window.wiki_parser.parse(editingCard.find('card description').text());
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
         }});
-        user = currentUser();
-        $.ajax({
-          url: '/projects/' + project + '/cards/history?id=' + editingCardId,
-          dataType: 'html',
-          success: function(xmlDoc) {
-            var changes = $(xmlDoc).find('.card-event').filter(function(_, card_event) {
-              return $(card_event).find('.change').text().trim().match(/Description changed/);
-            });
-            var journal = _.map(story, function(item) { return {id: item.id, type: 'add', item: item}; });
-            var userIcons = changes.map(function(i, change) {
-              return $(change).find('.user-icon img');
-            }).toArray();
-
-            $this.wikimate('journal', journal, function(actionElement) {
-              var img = userIcons.pop();
-              if (img) {
-                actionElement.css('background-image', 'url(' + $(img).prop('src') + ')');
-              } else {
-                updateUserIcon(user, actionElement);
-              }
-              actionElement.html(actionImage(actionElement));
-            });
-            userIcons = [];
-          },
-          failure: ajaxErrorHandler
-        });
       },
 
       update: function(event, action) {
