@@ -49,9 +49,11 @@
   if (window.wikimate && window.wikimate.plugins) {
     $.extend(window.wikimate.plugins, {
       paragraph: $.extend({'title': 'Original Wiki Markup'}, render_from_server_paragraph),
-      macro: $.extend({'title': 'Macro'}, render_from_server_paragraph),
+      macro: $.extend({}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
-      html: $.extend({}, render_from_server_paragraph)
+      html: $.extend({}, render_from_server_paragraph),
+      one_column_layout: {},
+      todo: {}
     });
     window.wikimate.default_story_item_type = 'rdoc';
     window.wikimate.plugins.rdoc.editor_options = {
