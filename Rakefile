@@ -30,6 +30,10 @@ task :bookmarklet => :clean do
   cp './../wikimate/src/css/wikimate.css', "./card_editor/css/wikimate-#{version}.css"
   cp './src/css/style.css', "./card_editor/css/style-#{version}.css"
   cp './bookmarklet/index.html', './card_editor/'
+  cp './chrome/icon.png', './card_editor/'
+  cp './chrome/manifest.json', './card_editor/'
+  cp './chrome/popup.html', './card_editor/'
+  cp './chrome/cloader.js', './card_editor/'
   puts "uglifyjs..."
   %x[uglifyjs ./card_editor/card_editor-#{version}.js > ./card_editor/card_editor-#{version}.min.js]
 end
