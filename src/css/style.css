@@ -47,3 +47,14 @@
   margin-right: 5px;
 }
 
+#default-story-item-selector {
+  position: absolute;
+  right: 5px;
+  bottom: 0px;
+  font-size: 10px;
+  color: #aaa;
+}
+
+#default-story-item-selector select {
+  font-size: 10px;
+}
