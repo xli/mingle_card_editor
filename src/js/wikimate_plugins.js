@@ -48,14 +48,14 @@
 
   if (window.wikimate && window.wikimate.plugins) {
     $.extend(window.wikimate.plugins, {
-      paragraph: $.extend({'title': 'Original Wiki Markup'}, render_from_server_paragraph),
+      paragraph: $.extend({'title': 'Wiki Markup'}, render_from_server_paragraph),
       macro: $.extend({}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph),
       one_column_layout: {},
       todo: {}
     });
-    window.wikimate.default_story_item_type = 'rdoc';
+    // window.wikimate.default_story_item_type = 'rdoc';
     window.wikimate.plugins.rdoc.editor_options = {
       plugins: "advlink,advlist,autoresize,autolink,save,fullscreen,lists",
       theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,fullscreen,|,justifyleft,justifycenter,justifyright",
