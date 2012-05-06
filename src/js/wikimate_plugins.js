@@ -41,18 +41,19 @@
         });
       },
       edit: function(item) {
-        return this.wikimate_text_editor('init');
+        return this.mingle_textile_editor({project: window.mingleProject, editingCardId: window.editingCardId});
       }
     };
   })();
 
   if (window.wikimate && window.wikimate.plugins) {
     $.extend(window.wikimate.plugins, {
-      paragraph: render_from_server_paragraph,
-      macro: $.extend({}, render_from_server_paragraph),
+      paragraph: $.extend({'title': 'Original Wiki Markup'}, render_from_server_paragraph),
+      macro: $.extend({'title': 'Macro'}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph)
     });
+    window.wikimate.default_story_item_type = 'rdoc';
     window.wikimate.plugins.rdoc.editor_options = {
       plugins: "advlink,advlist,autoresize,autolink,save,fullscreen,lists",
       theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,fullscreen,|,justifyleft,justifycenter,justifyright",

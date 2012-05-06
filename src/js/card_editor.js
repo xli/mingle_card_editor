@@ -2,26 +2,24 @@ jQuery.noConflict();
 (function($) {
   $.plugin('card_editor', (function() {
     var baseUrl = "/api/v2/projects/";
-    var editingCard;
-    var editingCardId;
-    var project;
-    var number;
+    var cardElement;
     function card_uri() {
-      return baseUrl + project + "/cards/" + number;
+      return baseUrl + window.mingleProject + "/cards/" + window.number + '.xml';
     }
     function ajaxErrorHandler(x) {
       console.log(x);
-      $this.card_editor('status', 'error');
+      cardElement.card_editor('status', 'error');
     }
 
     return {
       init: function(card) {
-        project = card.project;
-        number = card.number;
+        window.mingleProject = card.project;
+        window.number = card.number;
+        cardElement = this;
         this.card_editor('status', 'loading');
         var $this = this.addClass('card_editor');
         $.ajax({
-          url: card_uri() + '.xml',
+          url: card_uri(),
           dataType: 'xml',
           success: function(xmlDoc) {
             $this.card_editor('initWikiMate', xmlDoc);
@@ -33,8 +31,8 @@ jQuery.noConflict();
       },
 
       initWikiMate: function(cardDoc) {
-        editingCard = $(cardDoc);
-        editingCardId = editingCard.find('card id').text();
+        var editingCard = $(cardDoc);
+        window.editingCardId = editingCard.find('card id').text();
         var story = window.wiki_parser.parse(editingCard.find('card description').text());
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
@@ -48,7 +46,7 @@ jQuery.noConflict();
 
         var $this = this;
         $.ajax({
-          url: card_uri() + ".xml",
+          url: card_uri(),
           dataType: 'xml',
           data: {card: {description: desc}},
           type: 'PUT',
@@ -62,11 +60,11 @@ jQuery.noConflict();
 
       renderWiki: function(content, onSuccess) {
         var paramStr = $.param({
-          content_provider: {id: editingCardId, type: 'card'},
+          content_provider: {id: window.editingCardId, type: 'card'},
           content: content
         });
         $.ajax({
-          url: baseUrl + project + "/render?" + paramStr,
+          url: baseUrl + window.mingleProject + "/render?" + paramStr,
           dataType: 'html',
           success: onSuccess,
           failure: ajaxErrorHandler
