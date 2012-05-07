@@ -41,3 +41,8 @@
 #default-story-item-selector select {
   font-size: 10px;
 }
+
+.add-new-factory {
+  margin: 0;
+  width: 24px;
+}
