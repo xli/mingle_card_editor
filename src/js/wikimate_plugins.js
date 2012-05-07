@@ -58,7 +58,7 @@
     // window.wikimate.default_story_item_type = 'rdoc';
     window.wikimate.plugins.rdoc.editor_options = {
       plugins: "advlink,advlist,autoresize,autolink,save,fullscreen,lists",
-      theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,fullscreen,|,justifyleft,justifycenter,justifyright",
+      theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,|,justifyleft,justifycenter,justifyright",
       theme_advanced_buttons2: ""
     };
   } else {
