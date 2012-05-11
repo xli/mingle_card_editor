@@ -36,7 +36,8 @@ jQuery.noConflict();
             dialog.dialog('close');
             dialog.remove();
             dialog = null;
-            wikimateElement.wikimate("newItem", {type: 'image', text: "!" + file.name + "!"}).story_item('save');
+            var item = (/image/i).test(file.type) ? {type: 'image', text: "!" + file.name + "!"} : {type: 'paragraph', text: "[[" + file.name + "]]"};
+            wikimateElement.wikimate("newItem", item).story_item('save');
           }
         }
       };
