@@ -20,7 +20,6 @@ task :bookmarklet => :clean do
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
     io.write(File.read('src/js/mingle_textile_editor.js'))
-    io.write(File.read('src/js/drop_upload.js'))
     io.write(File.read('src/js/card_editor.js'))
   end
 

@@ -13,7 +13,7 @@ jQuery.noConflict();
       console.log(x);
       cardElement.card_editor('status', 'error');
     }
-    var drop_upload_image = function(wikimateElement) {
+    var upload_dropfile = function(wikimateElement) {
       var dialog, progressbar;
       return {
         post_url: card_attachments_url(),
@@ -36,7 +36,8 @@ jQuery.noConflict();
             dialog.dialog('close');
             dialog.remove();
             dialog = null;
-            var item = (/image/i).test(file.type) ? {type: 'image', text: "!" + file.name + "!"} : {type: 'paragraph', text: "[[" + file.name + "]]"};
+            var file_name = file.name.replace(/ /g, '_');
+            var item = (/image/i).test(file.type) ? {type: 'image', text: "!" + file_name + "!"} : {type: 'paragraph', text: "[[" + file_name + "]]"};
             wikimateElement.wikimate("newItem", item).story_item('save');
           }
         }
@@ -70,7 +71,7 @@ jQuery.noConflict();
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
-        }}).drop_upload(drop_upload_image(this));
+        }}).dropfile(upload_dropfile(this));
       },
       defaultStoryItemTypeConfiguration: function() {
         var selector = "New section type: <select title=\"The type of section used to create new section by double click.\">\n";
