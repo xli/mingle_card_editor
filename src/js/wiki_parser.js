@@ -71,7 +71,8 @@
       _.each(splitByHtmlElement(content), function(element) {
         if (element.data) {
           _.each(element.data.split(/\n\n/), function(text) {
-            result.push({id: nextId(), type: 'paragraph', text: text});
+            var type = text.trim().match(/^\![^\!]+\!$/) != null ? "image" : "paragraph";
+            result.push({id: nextId(), type: type, text: text});
           });
         } else {
           if (element.tagName.match(/macro/i)) {

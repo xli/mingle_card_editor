@@ -100,5 +100,11 @@ describe("WikiParser", function() {
       expect(d([{id: 'story_item_1', type: 'todo', text: "todo 1"}, {id: 'story_item_2', type: 'paragraph', text: "p 1"}, {id: 'story_item_3', type: 'one_column_layout', text: "layout 1"}])).
       toEqual("p 1");
     });
+
+    it('parse out image', function() {
+      var item = {id: 'story_item_1', type: 'image', text: "!image_identifier!"};
+      expect(p(d([item]))).
+      toEqual([item]);
+    });
   });
 });

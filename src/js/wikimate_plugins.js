@@ -56,21 +56,12 @@
       });
     },
     edit: function(item) {
-      var itemElement = this;
-      var title = this.story_item('newItem') ? "Add" : "Edit";
       $('<fieldset/>').css('text-align', 'left')
-        .append($('<label for="image_url">Image URL: </label>'))
-        .append($('<input class="image_url_input" type="text" readonly/>').css('width', '99%').val(this.find('img').prop('src')))
-        .dialog({
-          title: title,
-          modal: true,
-          width: "66%",
-          buttons: {
-            Close: function() {
-              $(this).dialog('close');
-            }
-          }
-        });
+        .append('Image URL:')
+        .append($('<input class="image_input" type="text" readonly/>').val(this.find('img').prop('src')))
+        .append('Wiki Markup:')
+        .append($('<input class="image_input" type="text" readonly/>').val(item.text))
+        .dialog({ title: "Image", modal: true, width: "66%" });
     }
   }, render_from_server_paragraph)
 

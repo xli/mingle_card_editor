@@ -46,3 +46,8 @@
   margin: 0;
   width: 24px;
 }
+
+.image_input {
+  width: 99%;
+  margin-bottom: 5px;
+}
