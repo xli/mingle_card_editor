@@ -14,20 +14,28 @@ jQuery.noConflict();
       cardElement.card_editor('status', 'error');
     }
     var drop_upload_image = function(wikimateElement) {
-      var uploadingDialog;
+      var dialog, progressbar;
       return {
         post_url: card_attachments_url(),
         field_name: 'file',
-        start: function() {
-          uploadingDialog = $('<div/>').html('Please wait...').dialog({
+        start: function(xhr, file) {
+          progressbar = $('<div/>').progressbar({ value: 0 });
+          dialog = $('<div/>').append(progressbar).dialog({
             title: "Uploading",
             modal: true
           });
+          xhr.upload.addEventListener("progress", function (e) {
+            if (e.lengthComputable) {
+              var loaded = Math.ceil((e.loaded / e.total) * 100);
+              progressbar.progressbar("value", loaded);
+            }
+          }, false);
         },
         complete: function(result, file) {
-          if (uploadingDialog) {
-            uploadingDialog.dialog('close');
-            uploadingDialog = null;
+          if (dialog) {
+            dialog.dialog('close');
+            dialog.remove();
+            dialog = null;
             wikimateElement.wikimate("newItem", {type: 'image', text: "!" + file.name + "!"}).story_item('save');
           }
         }
