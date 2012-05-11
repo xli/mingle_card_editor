@@ -74,7 +74,6 @@
     }
   }, render_from_server_paragraph)
 
-
   if (window.wikimate && window.wikimate.plugins) {
     $.extend(window.wikimate.plugins, {
       paragraph: $.extend({'title': 'Wiki Markup'}, render_from_server_paragraph),
