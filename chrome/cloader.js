@@ -19,8 +19,9 @@
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
     addScript('/tiny_mce_3_4_9/tiny_mce.js');
-    addScript('/card_editor-' + version + '.min.js');
+    addScript('/card_editor-' + version + '.js');
     addStylesheet('/css/wikimate-' + version + '.css');
     addStylesheet('/css/style-' + version + '.css');
+    addStylesheet('/css/jquery-ui-1.8.20.custom.css');
   }
 })();

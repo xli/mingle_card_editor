@@ -11,7 +11,6 @@ end
 task :bookmarklet => :clean do
   version = '1.0'
   mkdir_p 'card_editor'
-  mkdir_p 'card_editor/css'
   File.open("./card_editor/card_editor-#{version}.js", 'w') do |io|
     io.write(File.read('lib/jquery-1.7.2.js'))
     io.write(File.read('lib/jquery-ui-1.8.18.custom.min.js'))
@@ -21,11 +20,13 @@ task :bookmarklet => :clean do
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
     io.write(File.read('src/js/mingle_textile_editor.js'))
+    io.write(File.read('src/js/drop_upload.js'))
     io.write(File.read('src/js/card_editor.js'))
   end
 
   cp_r './lib/tiny_mce_3_4_9', './card_editor/'
   cp_r './src/images', './card_editor/'
+  cp_r './lib/css', './card_editor/'
   cp './src/js/loader.js', "./card_editor/loader.js"
   cp './../wikimate/src/css/wikimate.css', "./card_editor/css/wikimate-#{version}.css"
   cp './src/css/style.css', "./card_editor/css/style-#{version}.css"

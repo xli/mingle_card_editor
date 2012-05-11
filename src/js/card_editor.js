@@ -6,9 +6,32 @@ jQuery.noConflict();
     function card_uri() {
       return baseUrl + window.mingleProject + "/cards/" + window.number + '.xml';
     }
+    function card_attachments_url() {
+      return baseUrl + window.mingleProject + "/cards/" + window.number + "/attachments.xml";
+    }
     function ajaxErrorHandler(x) {
       console.log(x);
       cardElement.card_editor('status', 'error');
+    }
+    var drop_upload_image = function(wikimateElement) {
+      var uploadingDialog;
+      return {
+        post_url: card_attachments_url(),
+        field_name: 'file',
+        start: function() {
+          uploadingDialog = $('<div/>').html('Please wait...').dialog({
+            title: "Uploading",
+            modal: true
+          });
+        },
+        complete: function(result, file) {
+          if (uploadingDialog) {
+            uploadingDialog.dialog('close');
+            uploadingDialog = null;
+            wikimateElement.wikimate("newItem", {type: 'image', text: "!" + file.name + "!"}).story_item('save');
+          }
+        }
+      };
     }
 
     return {
@@ -38,7 +61,7 @@ jQuery.noConflict();
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
-        }});
+        }}).drop_upload(drop_upload_image(this));
       },
       defaultStoryItemTypeConfiguration: function() {
         var selector = "New section type: <select title=\"The type of section used to create new section by double click.\">\n";
