@@ -28,11 +28,11 @@
           xhr.send(fd);
 
         }).on('dragenter', function(e) {
-          console.log('dragenter');
+          // console.log('dragenter');
         }).on('dragover', function(e) {
-          console.log('dragover');
+          // console.log('dragover');
         }).on('dragleave', function(e) {
-          console.log('dragleave');
+          // console.log('dragleave');
         });
       }
     }

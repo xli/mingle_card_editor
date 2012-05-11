@@ -58,9 +58,9 @@
     edit: function(item) {
       $('<fieldset/>').css('text-align', 'left')
         .append('Image URL:')
-        .append($('<input class="image_input" type="text" readonly/>').val(this.find('img').prop('src')))
+        .append($('<input class="image-input" type="text" readonly/>').val(this.find('img').prop('src')))
         .append('Wiki Markup:')
-        .append($('<input class="image_input" type="text" readonly/>').val(item.text))
+        .append($('<input class="image-input" type="text" readonly/>').val(item.text))
         .dialog({ title: "Image", modal: true, width: "66%" });
     }
   }, render_from_server_paragraph)
