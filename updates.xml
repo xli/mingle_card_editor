@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
   <app appid='dcincohhbbppandmiejnfgpafncnbmci'>
-    <updatecheck codebase='https://dl.dropbox.com/s/8km0mzvdna8j2fr/mingle_card_editor.crx?dl=1' version='1.4' />
+    <updatecheck codebase='https://dl.dropbox.com/s/8km0mzvdna8j2fr/mingle_card_editor.crx?dl=1' version='1.5' />
   </app>
 </gupdate>
