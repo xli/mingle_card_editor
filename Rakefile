@@ -9,7 +9,7 @@ rescue LoadError
 end
 
 task :bookmarklet => :clean do
-  version = '1.5'
+  version = '1.6'
   mkdir_p 'card_editor'
   File.open("./card_editor/card_editor-#{version}.js", 'w') do |io|
     io.write(File.read('lib/jquery-1.7.2.js'))
