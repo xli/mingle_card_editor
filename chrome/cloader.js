@@ -18,8 +18,8 @@
 
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
-    addScript('/card_editor-' + version + '.js');
-    addStylesheet('/css/wikimate-' + version + '.css');
+    addScript('/card_editor-' + version + '.min.js');
+    addStylesheet('/css/wikimate-0.1.css');
     addStylesheet('/css/style-' + version + '.css');
     addStylesheet('/css/jquery-ui-1.8.20.custom.css');
   }

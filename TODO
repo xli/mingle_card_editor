@@ -1,9 +1,3 @@
 
-# * UPDATE card description
-# * add new item when no description
-# * add wikimate.css
-* card page: ?tab=All
-* tooltip for rendering status, to know what's rendering instead of double click to show alert
-# * attached image does not displayed correctly
-# * highlight paragraph when mouseover
-* textarea height problem
+* fix context path problem
+* 

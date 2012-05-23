@@ -15,7 +15,7 @@ task :bookmarklet => :clean do
     io.write(File.read('lib/jquery-1.7.2.js'))
     io.write(File.read('lib/jquery-ui-1.8.18.custom.min.js'))
     io.write(File.read('lib/underscore-1.3.1.js'))
-    io.write(File.read('lib/wikimate.js'))
+    io.write(File.read('lib/wikimate-0.1.js'))
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
     io.write(File.read('src/js/mingle_textile_editor.js'))
@@ -25,12 +25,10 @@ task :bookmarklet => :clean do
   cp_r './src/images', './card_editor/'
   cp_r './lib/css', './card_editor/'
   cp './src/js/loader.js', "./card_editor/loader.js"
-  cp './../wikimate/src/css/wikimate.css', "./card_editor/css/wikimate-#{version}.css"
   cp './src/css/style.css', "./card_editor/css/style-#{version}.css"
   cp './bookmarklet/index.html', './card_editor/'
   cp './chrome/icon.png', './card_editor/'
   cp './chrome/manifest.json', './card_editor/'
-  cp './chrome/popup.html', './card_editor/'
   cp './chrome/cloader.js', './card_editor/'
   puts "uglifyjs..."
   %x[uglifyjs ./card_editor/card_editor-#{version}.js > ./card_editor/card_editor-#{version}.min.js]
