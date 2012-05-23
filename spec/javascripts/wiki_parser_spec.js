@@ -82,25 +82,6 @@ describe("WikiParser", function() {
       toEqual("p 1\n\ntask 1");
     });
 
-    it('dump rdoc items to be saved to Mingle card', function() {
-      expect(d([{id: 'story_item_1', type: 'rdoc', text: "doc 1"}])).
-      toEqual("<div story_item_type='rdoc'>doc 1</div>");
-    });
-
-    it('parse out dumped rdoc item', function() {
-      var item = {id: 'story_item_1', type: 'rdoc', text: "doc 1"};
-      expect(p(d([item]))).
-      toEqual([item]);
-    });
-
-    it('ignore non-compatiable story items', function() {
-      expect(d([{id: 'story_item_1', type: 'todo', text: "p 1"}])).
-      toEqual("");
-
-      expect(d([{id: 'story_item_1', type: 'todo', text: "todo 1"}, {id: 'story_item_2', type: 'paragraph', text: "p 1"}, {id: 'story_item_3', type: 'one_column_layout', text: "layout 1"}])).
-      toEqual("p 1");
-    });
-
     it('parse out image', function() {
       var item = {id: 'story_item_1', type: 'image', text: "!image_identifier!"};
       expect(p(d([item]))).

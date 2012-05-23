@@ -52,13 +52,7 @@
       body_macro
     ]),
     dump: function(story) {
-      return _.map(_.select(story, function(item) {
-        var type = item.type;
-        return type != 'todo' && type != 'one_column_layout';
-      }), function(item) {
-        if (item.type == 'rdoc') {
-          return "<div story_item_type='rdoc'>" + item.text + "</div>";
-        }
+      return _.map(story, function(item) {
         return item.text.trim();
       }).join("\n\n");
     },
@@ -78,12 +72,7 @@
           if (element.tagName.match(/macro/i)) {
             result.push({id: nextId(), type: element.tagName.toLowerCase(), text: $(element).text()});
           } else {
-            var type = $(element).attr('story_item_type');
-            if (type) {
-              result.push({id: nextId(), type: type, text: $(element).html()});
-            } else {
-              result.push({id: nextId(), type: 'html', text: element.outerHTML});
-            }
+            result.push({id: nextId(), type: 'html', text: element.outerHTML});
           }
         }
       });
