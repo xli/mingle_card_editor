@@ -1,6 +1,6 @@
 
 (function() {
-  var version = '1.6';
+  var version = '1.7';
   function addScript(src) {
     var script = document.createElement('SCRIPT');
     script.type = 'text/javascript';
@@ -18,7 +18,6 @@
 
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
-    addScript('/tiny_mce_3_4_9/tiny_mce.js');
     addScript('/card_editor-' + version + '.js');
     addStylesheet('/css/wikimate-' + version + '.css');
     addStylesheet('/css/style-' + version + '.css');

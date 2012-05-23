@@ -57,7 +57,6 @@ jQuery.noConflict();
           dataType: 'xml',
           success: function(xmlDoc) {
             $this.card_editor('initWikiMate', xmlDoc);
-            $this.card_editor('defaultStoryItemTypeConfiguration');
             $this.card_editor('status', 'idle');
           },
           failure: ajaxErrorHandler
@@ -74,17 +73,6 @@ jQuery.noConflict();
           $this.card_editor('update', event, action);
         }}).dropfile(upload_dropfile(this));
       },
-      defaultStoryItemTypeConfiguration: function() {
-        var selector = "New section type: <select title=\"The type of section used to create new section by double click.\">\n";
-        selector += "<option value=\"paragraph\" selected=\"selected\">Wiki Markup</option>\n";
-        selector += "<option value=\"rdoc\">Rich Document</option>\n";
-        selector += "</select>";
-        $('<div/>').prop("id", "default-story-item-selector").html(selector).appendTo(this).find('select').change(function(e) {
-          var select = e.target;
-          window.wikimate.default_story_item_type = select.options[select.selectedIndex].value;
-        });
-      },
-
       update: function(event, action) {
         this.card_editor('status', 'updating');
         var desc = wiki_parser.dump(this.wikimate('story'));

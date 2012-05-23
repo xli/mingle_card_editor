@@ -66,21 +66,13 @@
   }, render_from_server_paragraph)
 
   if (window.wikimate && window.wikimate.plugins) {
-    $.extend(window.wikimate.plugins, {
+    window.wikimate.plugins = {
       paragraph: $.extend({'title': 'Wiki Markup'}, render_from_server_paragraph),
       macro: $.extend({}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph),
-      one_column_layout: {},
-      todo: {},
       image: wiki_image
-    });
-    // window.wikimate.default_story_item_type = 'rdoc';
-    window.wikimate.plugins.rdoc.editor_options = {
-      plugins: "advlink,advlist,autoresize,autolink,save,fullscreen,lists",
-      theme_advanced_buttons1: "save,cancel,|,formatselect,bold,italic,underline,strikethrough,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,unlink,removeformat,|,justifyleft,justifycenter,justifyright",
-      theme_advanced_buttons2: ""
-    };
+    }
   } else {
     console.log("No window.wikimate or window.wikimate.plugins found");
   }

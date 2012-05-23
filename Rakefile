@@ -9,13 +9,12 @@ rescue LoadError
 end
 
 task :bookmarklet => :clean do
-  version = '1.6'
+  version = '1.7'
   mkdir_p 'card_editor'
   File.open("./card_editor/card_editor-#{version}.js", 'w') do |io|
     io.write(File.read('lib/jquery-1.7.2.js'))
     io.write(File.read('lib/jquery-ui-1.8.18.custom.min.js'))
     io.write(File.read('lib/underscore-1.3.1.js'))
-    io.write(File.read('lib/diff.js'))
     io.write(File.read('lib/wikimate.js'))
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
@@ -23,7 +22,6 @@ task :bookmarklet => :clean do
     io.write(File.read('src/js/card_editor.js'))
   end
 
-  cp_r './lib/tiny_mce_3_4_9', './card_editor/'
   cp_r './src/images', './card_editor/'
   cp_r './lib/css', './card_editor/'
   cp './src/js/loader.js', "./card_editor/loader.js"

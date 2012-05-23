@@ -7,15 +7,9 @@
   background-image: url("../images/icon_draggable_vertical.png") !important;
 }
 
-.wikimate .undo {
-  position: absolute;
-  bottom: 2px;
-  right: 12px;
-  padding: 5px;
-}
-
 .wikimate-story .item .plain-text-editor {
   min-height: 5em !important;
+  width: 100%;
 }
 
 .ui-sortable-helper {
@@ -23,31 +17,11 @@
   padding: 0px 5px;
 }
 
-.todo {
-  margin: 10px;
-}
-.todo input {
-  margin-right: 5px;
-}
-
-#default-story-item-selector {
-  position: absolute;
-  right: 5px;
-  bottom: 0px;
-  font-size: 10px;
-  color: #aaa;
-}
-
-#default-story-item-selector select {
-  font-size: 10px;
-}
-
-.add-new-factory {
-  margin: 0;
-  width: 24px;
-}
-
 .image-input {
   width: 99%;
   margin-bottom: 5px;
+}
+
+.add-new-factory {
+  display: none;
 }
