@@ -7,10 +7,9 @@
           macro_type: macro_type
         });
         $.ajax({
-          url: '/projects/' + project + "/macro_editor/show?" + paramStr,
+          url: AlsoViewing.CONTEXT_PATH + '/projects/' + project + "/macro_editor/show?" + paramStr,
           dataType: 'script',
-          method: 'get',
-          failure: ajaxErrorHandler
+          method: 'get'
         });
       }
     }

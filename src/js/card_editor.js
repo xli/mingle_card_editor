@@ -1,7 +1,12 @@
 jQuery.noConflict();
 (function($) {
+  if (!AlsoViewing) {
+    console.log("Mingle Card Editor Chrome extension works with Mingle 12.1 or higher verion.");
+    return;
+  }
+
   $.plugin('card_editor', (function() {
-    var baseUrl = "/api/v2/projects/";
+    var baseUrl = AlsoViewing.CONTEXT_PATH + "/api/v2/projects/";
     var cardElement;
     function card_uri() {
       return baseUrl + window.mingleProject + "/cards/" + window.number + '.xml';
@@ -123,10 +128,5 @@ jQuery.noConflict();
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match) {
     $('#content').card_editor({project: match[1], number: match[2]});
-  } else {
-    if (console) {
-      console.log("Not on Mingle Card show page: ");
-      console.log(window.location.href);
-    }
   }
 })(jQuery);
