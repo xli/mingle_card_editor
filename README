@@ -2,7 +2,6 @@ Mingle Card Editor
 ---------------------------
 
 A Chrome extension, will automatically turn Mingle Card page to editable sections.
-
 Inspired by Smallest-Federated-Wiki project.
 
 User Reference
@@ -11,4 +10,7 @@ User Reference
 * Double click to create/edit a section
 * Double return to create a new section following editing section
 
+Limit
+==============
 
+Only works with Mingle 12.1 or higher version.
