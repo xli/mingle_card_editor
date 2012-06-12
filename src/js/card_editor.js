@@ -126,7 +126,7 @@ jQuery.noConflict();
   })());
 
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
-  if (match) {
+  if (match && $('#card-edit-link-top').length > 0) {
     $('#content').card_editor({project: match[1], number: match[2]});
   }
 })(jQuery);

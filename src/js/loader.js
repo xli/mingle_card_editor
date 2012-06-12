@@ -1,7 +1,7 @@
 
 (function() {
   var host = "http://localhost:7777/";
-  var version = '1.8';
+  var version = '1.9';
   function addScript(src) {
     var script = document.createElement('SCRIPT');
     script.type = 'text/javascript';
