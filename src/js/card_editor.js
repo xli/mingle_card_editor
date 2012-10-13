@@ -1,10 +1,10 @@
 jQuery.noConflict();
 (function($) {
-  window.contextPath = '/';
+  window.contextPath = '';
   $.plugin('card_editor', (function() {
     var cardElement;
     function baseUrl() {
-      var path = "api/v2/projects/"
+      var path = "/api/v2/projects/"
       return window.contextPath + path;
     }
     function card_uri() {
@@ -128,7 +128,7 @@ jQuery.noConflict();
   if (match && $('#card-edit-link-top').length > 0) {
     path = window.location.href.split("/");
     if (path[3] != 'projects') {
-      window.contextPath = '/' + path[3] + '/';
+      window.contextPath = '/' + path[3];
     }
     $('#content').card_editor({project: match[1], number: match[2]});
   }

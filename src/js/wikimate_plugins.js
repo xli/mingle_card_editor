@@ -23,7 +23,7 @@
               div.append(html);
             }
           });
-          return div.html('<img src="/images/spinner.gif" title="loading..."/>');
+          return div.html('<img src="' + window.contextPath + 'images/spinner.gif" title="loading..."/>');
         }
       },
       bind: function(div, item) {
@@ -46,32 +46,13 @@
     };
   })();
 
-  var wiki_image = _.defaults({
-    bind: function(div, item) {
-      var $this = this;
-      div.click(function(e) {
-        if ($this.story_item('editable')) {
-          $this.story_item('edit');
-        }
-      });
-    },
-    edit: function(item) {
-      $('<fieldset/>').css('text-align', 'left')
-        .append('Image URL:')
-        .append($('<input class="image-input" type="text" readonly/>').val(this.find('img').prop('src')))
-        .append('Wiki Markup:')
-        .append($('<input class="image-input" type="text" readonly/>').val(item.text))
-        .dialog({ title: "Image", modal: true, width: "66%" });
-    }
-  }, render_from_server_paragraph)
-
   if (window.wikimate && window.wikimate.plugins) {
     window.wikimate.plugins = {
       paragraph: $.extend({'title': 'Wiki Markup'}, render_from_server_paragraph),
       macro: $.extend({}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph),
-      image: wiki_image
+      image: $.extend({}, render_from_server_paragraph)
     }
   } else {
     console.log("No window.wikimate or window.wikimate.plugins found");
