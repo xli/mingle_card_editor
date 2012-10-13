@@ -1,6 +1,6 @@
 
 (function() {
-  var version = '1.9';
+  var version = '2.0';
   function addScript(src) {
     var script = document.createElement('SCRIPT');
     script.type = 'text/javascript';

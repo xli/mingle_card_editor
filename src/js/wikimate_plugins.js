@@ -23,7 +23,7 @@
               div.append(html);
             }
           });
-          return div.html('<img src="' + window.contextPath + 'images/spinner.gif" title="loading..."/>');
+          return div.html('<img src="' + window.contextPath + '/images/spinner.gif" title="loading..."/>');
         }
       },
       bind: function(div, item) {
