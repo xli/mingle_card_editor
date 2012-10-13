@@ -1,18 +1,17 @@
 jQuery.noConflict();
 (function($) {
-  if (!AlsoViewing) {
-    console.log("Mingle Card Editor Chrome extension works with Mingle 12.1 or higher verion.");
-    return;
-  }
-
+  window.contextPath = '/';
   $.plugin('card_editor', (function() {
-    var baseUrl = AlsoViewing.CONTEXT_PATH + "/api/v2/projects/";
     var cardElement;
+    function baseUrl() {
+      var path = "api/v2/projects/"
+      return window.contextPath + path;
+    }
     function card_uri() {
-      return baseUrl + window.mingleProject + "/cards/" + window.number + '.xml';
+      return baseUrl() + window.mingleProject + "/cards/" + window.number + '.xml';
     }
     function card_attachments_url() {
-      return baseUrl + window.mingleProject + "/cards/" + window.number + "/attachments.xml";
+      return baseUrl() + window.mingleProject + "/cards/" + window.number + "/attachments.xml";
     }
     function ajaxErrorHandler(x) {
       console.log(x);
@@ -102,7 +101,7 @@ jQuery.noConflict();
           content: content
         });
         $.ajax({
-          url: baseUrl + window.mingleProject + "/render?" + paramStr,
+          url: baseUrl() + window.mingleProject + "/render?" + paramStr,
           dataType: 'html',
           success: onSuccess,
           failure: ajaxErrorHandler
@@ -127,6 +126,10 @@ jQuery.noConflict();
 
   var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
   if (match && $('#card-edit-link-top').length > 0) {
+    path = window.location.href.split("/");
+    if (path[3] != 'projects') {
+      window.contextPath = '/' + path[3] + '/';
+    }
     $('#content').card_editor({project: match[1], number: match[2]});
   }
 })(jQuery);
