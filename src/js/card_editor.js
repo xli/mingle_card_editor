@@ -41,6 +41,7 @@ jQuery.noConflict();
             dialog.remove();
             dialog = null;
             var created_location = result.target.getResponseHeader('Location');
+            created_location = created_location.split("?")[0];
             var file_name = _.last(created_location.split("/"));
             var item = (/image/i).test(file.type) ? {type: 'image', text: "!" + file_name + "!"} : {type: 'paragraph', text: "[[" + file_name + "]]"};
             wikimateElement.wikimate("newItem", item).story_item('save');
