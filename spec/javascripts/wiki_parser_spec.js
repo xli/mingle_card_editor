@@ -73,6 +73,12 @@ describe("WikiParser", function() {
     toEqual([{id: 'story_item_1', type: 'paragraph', text: "hello {{ project-variable \n     name: 'card-plv' \n    project: #{other_project.identifier} \n}}"}]);
   });
 
+  it("parse table with <br> content", function() {
+    expect(p("|hello \n<br>\nworld|\n\nnew")).
+    toEqual([{id: 'story_item_1', type: 'table_macro', text: "|hello \n<br>\nworld|\n"},
+      {id: 'story_item_2', type: 'paragraph', text: "\nnew"}]);
+  });
+
   describe("dump", function() {
     it('convert story items to string that can be saved to Mingle card', function() {
       expect(d([{id: 'story_item_1', type: 'paragraph', text: "p 1"}])).

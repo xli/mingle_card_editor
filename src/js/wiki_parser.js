@@ -17,6 +17,13 @@
       return '<body_macro>' + match[0] + '</body_macro>';
     }
   };
+  
+  var table_macro = {
+    pattern: /^\s*\|[\s\S]+\n$/m,
+    substitution: function(match) {
+      return '<table_macro>' + match[0] + '</table_macro>';
+    }
+  }
 
   function splitByHtmlElement(desc, callback) {
     return $($("<div></div>").html(desc)[0].childNodes);
@@ -49,7 +56,8 @@
   var parser = {
     rules: $([
       macro,
-      body_macro
+      body_macro,
+      table_macro
     ]),
     dump: function(story) {
       return _.map(story, function(item) {
@@ -70,7 +78,8 @@
           });
         } else {
           if (element.tagName.match(/macro/i)) {
-            result.push({id: nextId(), type: element.tagName.toLowerCase(), text: $(element).text()});
+            content = element.tagName.match(/table/i) ? $(element).html() : $(element).text();
+            result.push({id: nextId(), type: element.tagName.toLowerCase(), text: content});
           } else {
             result.push({id: nextId(), type: 'html', text: element.outerHTML});
           }

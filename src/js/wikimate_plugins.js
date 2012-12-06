@@ -51,6 +51,7 @@
       paragraph: $.extend({'title': 'Wiki Markup'}, render_from_server_paragraph),
       macro: $.extend({}, render_from_server_paragraph),
       body_macro: $.extend({}, render_from_server_paragraph),
+      table_macro: $.extend({}, render_from_server_paragraph),
       html: $.extend({}, render_from_server_paragraph),
       image: $.extend({}, render_from_server_paragraph)
     }
