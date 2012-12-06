@@ -9,11 +9,12 @@
             $(textile_bar).remove();
           }
         }).find('.plain-text-editor').prop('id', id);
-
         TextileEditor.buttons = TextileEditor.attachDefaultMingleButtons().reject(function(button) {
           return Object.isFunction(button.afterTextileEditorInit);
         });
         TextileEditor.initialize(id, 'extended', window.contextPath);
+        $(textile_bar).before($(TextileEditor.canvas));
+        $(TextileEditor.canvas).focus();
         return this;
       }
     };
