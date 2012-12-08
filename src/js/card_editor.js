@@ -40,9 +40,19 @@ jQuery.noConflict();
             dialog.dialog('close');
             dialog.remove();
             dialog = null;
-            var created_location = result.target.getResponseHeader('Location');
-            created_location = created_location.split("?")[0];
-            var file_name = _.last(created_location.split("/"));
+            // Mingle sanitize_filename logic, from file_column plugin
+            // filename = File.basename(filename.gsub("\\", "/")) # work-around for IE
+            // filename.gsub!(/[^\w0-9\.\-_]/,"_")
+            // filename = "_#{filename}" if filename =~ /^\.+$/
+            // filename = "unnamed" if filename.size == 0
+            var file_name = file.name
+            file_name = file_name.gsub(/[^\w0-9\.\-_]/,"_")
+            if (/^\.+$/.test(file_name)) {
+              file_name = "_" + file_name;
+            }
+            if (file_name.length == 0) {
+              file_name = "unnamed"
+            }
             var item = (/image/i).test(file.type) ? {type: 'image', text: "!" + file_name + "!"} : {type: 'paragraph', text: "[[" + file_name + "]]"};
             wikimateElement.wikimate("newItem", item).story_item('save');
           }
