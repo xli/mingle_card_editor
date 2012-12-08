@@ -1,6 +1,6 @@
 {
   "name": "Mingle Card Editor",
-  "version": "2.3",
+  "version": "2.4",
   "manifest_version": 2,
   "description": "Change Mingle Card show page into sectional editing. Double click to edit/create a section.",
   "icons": { "16": "icon.png",
@@ -15,8 +15,8 @@
      }
   ],
   "web_accessible_resources": [
-    "card_editor-2.3.min.js",
-    "css/style-2.3.css",
+    "card_editor-2.4.min.js",
+    "css/style-2.4.css",
     "css/wikimate-0.1.css",
     "css/jquery-ui-1.8.20.custom.css",
     "css/images/ui-bg_diagonals-thick_18_b81900_40x40.png",
