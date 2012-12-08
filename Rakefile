@@ -16,6 +16,7 @@ task :bookmarklet => :clean do
     io.write(File.read('lib/jquery-ui-1.8.18.custom.min.js'))
     io.write(File.read('lib/underscore-1.3.1.js'))
     io.write(File.read('lib/wikimate-0.1.js'))
+    io.write(File.read('lib/diff.js'))
     io.write(File.read('src/js/wiki_parser.js'))
     io.write(File.read('src/js/wikimate_plugins.js'))
     io.write(File.read('src/js/mingle_textile_editor.js'))

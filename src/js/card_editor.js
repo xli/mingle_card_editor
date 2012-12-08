@@ -86,7 +86,7 @@ jQuery.noConflict();
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
-        }}).dropfile(upload_dropfile(this));
+        }}).wikimate('journal', []).dropfile(upload_dropfile(this));
       },
       update: function(event, action) {
         this.card_editor('status', 'updating');
