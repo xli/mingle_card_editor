@@ -53,3 +53,8 @@
   width: 38px;
   font-size: 9px;
 }
+
+.wikimate .wikimate-story .item .item-action-bar a {
+  margin-right: 10px;
+}
+
