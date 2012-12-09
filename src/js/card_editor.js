@@ -59,6 +59,23 @@ jQuery.noConflict();
         }
       };
     }
+    
+    function attachUndoButton(editor_panel) {
+      if (editor_panel.find('button.undo').length > 0) {
+        return;
+      }
+      $("<button class='undo'>Undo</button>").click(function(e) {
+        var initialSize = editor_panel.find('> .wikimate-journal > .initial').length;
+        // protect the init hidden action
+        if (editor_panel.find('> .wikimate-journal > .action').length > initialSize) {
+          var undoAction = editor_panel.wikimate('undo');
+          if (editor_panel.find('> .wikimate-journal > .action').length == initialSize) {
+            this.remove();
+          }
+          editor_panel.card_editor('update', event, undoAction);
+        }
+      }).insertBefore(editor_panel.find('> .wikimate-journal'));
+    }
 
     return {
       init: function(card) {
@@ -86,7 +103,21 @@ jQuery.noConflict();
         var $this = this;
         this.empty().wikimate({story: story, change: function(event, action) {
           $this.card_editor('update', event, action);
+          attachUndoButton($this);
         }}).wikimate('journal', []).dropfile(upload_dropfile(this));
+
+        var prevItemId = null;
+        var journal = $this.find('> .wikimate-journal');
+        $.each(story, function(index, item) {
+          journal.journal('push', {
+            id: item.id,
+            type: 'add',
+            item: wikimate.utils.deepClone(item),
+            after: prevItemId
+          });
+          prevItemId = item.id
+        });
+        $this.find('> .wikimate-journal > .action').addClass('initial');
       },
       update: function(event, action) {
         this.card_editor('status', 'updating');
