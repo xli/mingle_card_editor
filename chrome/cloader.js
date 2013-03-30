@@ -1,6 +1,6 @@
 
 (function() {
-  var version = '2.5';
+  var version = '2.6';
   function addScript(src) {
     var script = document.createElement('SCRIPT');
     script.type = 'text/javascript';
@@ -16,7 +16,7 @@
     document.getElementsByTagName('head')[0].appendChild(script);
   }
 
-  var match = window.location.href.match(/\/projects\/([\da-z_]+)\/cards\/(\d+)[^\/]*$/);
+  var match = window.location.href.match(/iwantminglecardeditor$/);
   if (match) {
     addScript('/card_editor-' + version + '.min.js');
     addStylesheet('/css/jquery-ui-1.8.20.custom.css');

@@ -1,8 +1,8 @@
 {
   "name": "Mingle Card Editor",
-  "version": "2.5",
+  "version": "2.6",
   "manifest_version": 2,
-  "description": "Change Mingle Card show page into sectional editing. Double click to edit/create a section.",
+  "description": "This editor is deprecated. Please upgrade to Mingle 13.2, which has a WYSIWYG editor, thanks.",
   "icons": { "16": "icon.png",
              "48": "icon.png",
             "128": "icon.png" },
@@ -15,8 +15,8 @@
      }
   ],
   "web_accessible_resources": [
-    "card_editor-2.5.min.js",
-    "css/style-2.5.css",
+    "card_editor-2.6.min.js",
+    "css/style-2.6.css",
     "css/wikimate-0.1.css",
     "css/jquery-ui-1.8.20.custom.css",
     "css/images/ui-bg_diagonals-thick_18_b81900_40x40.png",
